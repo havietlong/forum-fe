@@ -4346,7 +4346,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
     left: 0;
     width: 100%;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent); /* Hiệu ứng fade */
-    padding: 10px 15px;
+    padding: 20px 0px 20px 20px;
   }
   
   .profile-info h3 {
@@ -4733,4 +4733,554 @@ svg.leaflet-image-layer.leaflet-interactive path {
   
   .tab.active {
     display: block; /* Hiển thị tab được chọn */
+  }
+
+
+
+  .vote-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.vote-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.vote-count {
+    font-size: 14px;
+}
+
+.comment-text {
+    width: 100%;
+}
+
+.comment-attachment a {
+    cursor: pointer;
+}
+
+ul.post-comments {
+    list-style: none;
+}
+.comment-area {
+    max-width: 600px;
+    margin: auto;
+}
+
+.comment-box {
+    display: flex;
+    margin-bottom: 15px;
+    align-items: flex-start;
+}
+
+.comment-box .user-img img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+.comment-data-block {
+    margin-left: 10px;
+    flex: 1;
+}
+
+.comment-data-block h6 {
+    margin: 0 0 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.comment-data-block p {
+    margin: 0 0 10px;
+    font-size: 14px;
+}
+
+.comment-activity a {
+    margin-right: 10px;
+    color: blue;
+    cursor: pointer;
+}
+
+.comment-activity span {
+    font-size: 12px;
+    color: gray;
+}
+
+.reply-box {
+    margin-left: 45px;
+    display: none;
+}
+
+.comment-form {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.comment-form input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.comment-form button {
+    padding: 10px 15px;
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.attachment-buttons a {
+    margin-right: 10px;
+    font-size: 18px;
+    color: gray;
+    text-decoration: none;
+}
+
+.toggle-replies {
+    cursor: pointer;
+    font-size: 12px;
+    color: gray;
+    margin-left: 5px;
+}
+
+.reply-input {
+    display: flex;
+    margin-top: 10px;
+}
+
+.reply-input input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+.reply-input button {
+    padding: 8px 10px;
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.profile-wrapper {
+    /* max-width: 100vh; */
+    margin: auto;
+    background: white;
+    border-radius: 8px;
+    /* overflow: hidden; */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Ảnh bìa */
+  .profile-cover {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-top: 56.25%; /* 9 / 16 * 100 = 56.25% */
+    background-color: black;
+    border-radius: 15px;
+    overflow: hidden;
+}
+  
+  .profile-cover__edit-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Phần thông tin cá nhân */
+  .profile-info {
+    display: flex;
+    align-items: center;
+    /* padding: 20px; */
+    position: relative;
+    border-bottom: 1px solid #ccc;
+    background: #fff;
+    border-top: 1px solid #f0f0f0;
+    margin-top: 2px;
+  }
+  
+  .profile-avatar {
+    top: -80px;
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid white;
+    margin-right: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .profile-details {
+    flex-grow: 1;
+  }
+  
+  .profile-name {
+    margin: 0;
+    font-size: 26px;
+    font-weight: bold;
+  }
+  
+  .profile-friends {
+    margin: 5px 0;
+    color: gray;
+    font-size: 14px;
+  }
+  
+  .profile-actions {
+    margin-top: 10px;
+  }
+  
+  .profile-actions__btn {
+    margin-right: 10px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .profile-actions__btn--primary {
+    background-color: #1877f2;
+    color: white;
+  }
+  
+  .profile-actions__btn--secondary {
+    background-color: #e4e6eb;
+    color: black;
+  }
+  
+  /* Menu bên dưới */
+  .profile-menu {
+    display: flex;
+    justify-content: space-around;
+    background: #fff;
+    padding: 8px 0;
+    border-top: 1px solid #ccc;
+  }
+  
+  .profile-menu__item {
+    background: none;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #1877f2;
+    border-bottom: 2px solid transparent;
+  }
+  
+  .profile-menu__item:hover {
+    border-bottom: 2px solid #1877f2;
+  }
+ /* Overlay cho ảnh đại diện */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .overlay-content img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  }
+  
+  .overlay.active {
+    display: flex;
+  }
+  
+  /* Menu lựa chọn cho ảnh đại diện */
+.avatar-menu {
+    display: none;
+    position: absolute;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: 1000;
+    /* top: calc(100% + 10px); 
+    left: 50%;
+    transform: translateX(-50%); */
+  }
+  
+  /* .avatar-menu__option {
+    display: block;
+    padding: 10px 20px;
+    text-align: center;
+    cursor: pointer;
+    border-bottom: 1px solid #ccc;
+    background: white;
+  } */
+  
+  .avatar-menu__option:last-child {
+    border-bottom: none;
+  }
+  
+  .avatar-menu__option:hover {
+    background: #f0f2f5;
+  }
+
+  
+
+/* Styling for the chat media (images and videos) */
+.chat-media {
+    max-width: 100%;
+    max-height: 300px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+/* Styling for chat actions (edit, delete buttons) */
+.chat-actions button {
+    margin: 5px;
+    padding: 5px;
+    background-color: transparent;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.chat-actions button:hover {
+    background-color: #f0f0f0;
+}
+
+/* Hide the file input */
+#chat-file {
+    display: none;
+}
+/* Hiệu ứng khi xóa */
+.tab-pane,
+.iq-chat-ui li {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.tab-pane.removed,
+.iq-chat-ui li.removed {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+
+
+
+
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 5px 0;
+    z-index: 1000;
+}
+
+.dropdown-menu a {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f5f5f5;
+}
+
+.dropdown-menu a i {
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+/* Style cho nút ba dấu chấm */
+.three-dots-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative; /* Đặt vị trí tương đối để .drop-menu căn chỉnh theo */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+}
+
+.three-dots-btn .dot {
+    width: 4px;
+    height: 4px;
+    background-color: #333;
+    border-radius: 50%;
+    margin: 2px 0;
+}
+
+/* Style cho menu dropdown */
+.drop-menu {
+    display: none;
+    position: absolute; /* Vị trí tuyệt đối so với nút cha */
+    /* top: 100%; Ngay bên dưới nút ba dấu chấm */
+    /* left: 50%; */
+    transform: translateX(-50%);
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    z-index: 10;
+    min-width: 100px;
+    padding: 5px 0;
+}
+
+.drop-menu.show {
+    display: block;
+}
+
+.drop-menu button {
+    width: 100%;
+    padding: 8px 12px;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+.drop-menu button:hover {
+    background-color: #f5f5f5;
+    color: #000;
+}
+#block-message .alert {
+    margin-top: 20px;
+    padding: 15px;
+    font-size: 14px;
+}
+#block-message #unblock-btn {
+    font-size: 12px;
+    padding: 5px 10px;
+}
+
+
+
+
+.table-container {
+    width: 90%;
+    max-width: 1200px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    border: 1px solid #ddd;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 15px;
+  }
+
+  thead {
+    background-color: #90caf9;
+    color: white;
+  }
+
+  th, td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  tbody tr:hover {
+    background-color: #e3f2fd;
+  }
+
+  tbody td a {
+    color: #42a5f5;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  tbody td a:hover {
+    text-decoration: underline;
+  }
+
+  .highlight {
+    background-color: #fff8e1 !important;
+  }
+
+  .section-header {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 12px 20px;
+    background-color: #f1f1f1;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .section {
+    margin-bottom: 10px;
+  }
+
+  .summary {
+    font-size: 14px;
+    color: #555;
+  }
+
+  .time {
+    font-size: 12px;
+    color: #888;
   }

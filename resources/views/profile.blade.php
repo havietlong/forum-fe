@@ -1,4069 +1,226 @@
-    <link rel="shortcut icon" href="images/favicon.ico" />
-      <link rel="stylesheet" href="css/libs.min.css">
-      <link rel="stylesheet" href="css/socialv.css?v=4.0.0">
-      <link rel="stylesheet" href="vendor/@fortawesome/fontawesome-free/css/all.min.css">
-      <link rel="stylesheet" href="vendor/remixicon/fonts/remixicon.css">
-      <link rel="stylesheet" href="vendor/vanillajs-datepicker/dist/css/datepicker.min.css">
-      <link rel="stylesheet" href="vendor/font-awesome-line-awesome/css/all.min.css">
-      <link rel="stylesheet" href="vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css">
-      <body>
-<div id="content-page" class="content-page">
-<div class="container">
-   <div class="row">
-      <div class="col-sm-12">
-         <div class="card">
-            <div class="card-body profile-page p-0">
-               <div class="profile-header">
-                  <div class="position-relative">
-                     <img src="images/page-img/profile-bg1.jpg" alt="profile-bg" class="rounded img-fluid">
-                     <ul class="header-nav list-inline d-flex flex-wrap justify-end p-0 m-0">
-                        <li><a href="#"><i class="ri-pencil-line"></i></a></li>
-                        <li><a href="#"><i class="ri-settings-4-line"></i></a></li>
+<link rel="shortcut icon" href="images/favicon.ico" />
+<link rel="stylesheet" href="css/libs.min.css">
+<link rel="stylesheet" href="css/socialv.css?v=4.0.0">
+<link rel="stylesheet" href="vendor/@fortawesome/fontawesome-free/css/all.min.css">
+<link rel="stylesheet" href="vendor/remixicon/fonts/remixicon.css">
+<link rel="stylesheet" href="vendor/vanillajs-datepicker/dist/css/datepicker.min.css">
+<!-- <link rel="stylesheet" href="vendor/font-awesome-line-awesome/css/all.min.css"> -->
+<link rel="stylesheet" href="vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+
+<body>
+   @include('partials.header')
+
+   <div id="content-page" class="content-page">
+      <div class="container">
+         <div class="row">
+            <div class="col-sm-12">
+
+
+               <div class="profile-wrapper">
+                  <!-- Ảnh bìa -->
+                  <div id="profile-cover" class="profile-cover">
+                     <button id="cover-edit-btn" class="profile-cover__edit-btn">Chỉnh sửa ảnh bìa</button>
+                     <input type="file" id="cover-input" accept="image/*" style="display: none;">
+                     <img id="cover-image" src="" alt="Cover Image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px;" />
+                  </div>
+
+
+                  <!-- Phần thông tin cá nhân -->
+                  <div class="profile-info">
+                     <div class="avatar-section-container">
+                        <div class="profile-avatar" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           <img src="  images/user/long.jpg" alt="Ảnh đại diện" id="profile-avatar">
+                        </div>
+                        <div id="avatar-menu" class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: fit-content; z-index:10">
+                           <a class="dropdown-item" id="uploadProfileButton">Tải ảnh đại diện</a>
+                           <a class="dropdown-item" href="#">Xem ảnh đại diện</a>
+                        </div>
+                     </div>
+                     <input style="display:none" type="file" id="media" name="media" multiple>
+
+                     <div class="profile-details d-flex justify-content-between">
+                        <div class="info" style="padding-left: 180px;">
+                           <h1 class="profile-name" id="profile-name">Hà Việt Long</h1>
+                           <p class="profile-followers" id="profile-followers">1K người bạn</p>
+                        </div>
+                        <div class="profile-actions">
+
+                           <button class="profile-actions__btn profile-actions__btn--secondary">Chỉnh sửa trang cá
+                              nhân</button>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- Thanh menu -->
+                  <div class="profile-menu">
+                     <button class="profile-menu__item">Bài viết</button>
+
+                     <button class="profile-menu__item">Ảnh</button>
+
+                     <button class="profile-menu__item">Xem thêm</button>
+                  </div>
+               </div>
+
+
+
+               <!-- Overlay cho ảnh đại diện -->
+               <div class="overlay" id="avatar-overlay">
+                  <div class="overlay-content">
+                     <img src="  images/user/long.jpg" alt="Ảnh đại diện phóng to" id="overlay-avatar">
+                  </div>
+               </div>
+               <br>
+               <!-- Input file cho ảnh đại diện -->
+               <input type="file" id="avatar-input" accept="image/*" style="display: none;">
+
+               <div class="col-sm-12">
+                  <div class="tab-content">
+                     <div class="tab-pane fade show active" id="timeline" role="tabpanel">
+                        <div class="card-body p-0">
+                           <div class="row">
+                              <div class="col-lg-4">
+                                 <!-- <div class="card">
+                                          <div class="card-body">
+                                             <a href="#"><span
+                                                   class="badge badge-pill bg-primary font-weight-normal ms-auto me-1"><i
+                                                      class="ri-star-line"></i></span> 27 Items for yoou</a>
+                                          </div>
+                                       </div> -->
+                                 <div class="card">
+                                    <div class="card-header d-flex justify-content-between">
+                                       <div class="header-title">
+                                          <h4 class="card-title">Tổng quan</h4>
+                                       </div>
+                                       <div class="card-header-toolbar d-flex align-items-center">
+                                          <p class="m-0"><a href="javacsript:void();"> Share Profile </a></p>
+                                       </div>
+                                    </div>
+
+                                    <div class="profile-card">
+                                       <div class="header">
+                                          <div class="profile-pic"></div>
+                                       </div>
+                                       <div class="content">
+                                          <h2 id="profile-card-name">LongCuto</h2>
+                                          <button class="share-btn">Share</button>
+                                          <div class="stats">
+                                             <div>
+                                                <span>1</span>
+                                                <p>Post karma</p>
+                                             </div>
+                                             <div>
+                                                <span>0</span>
+                                                <p>Comment karma</p>
+                                             </div>
+                                          </div>
+
+                                          <div class="settings">
+                                             <div>
+                                                <p>Profile</p>
+
+                                                <button>Edit Profile</button>
+                                             </div>
+                                             <div>
+                                                <p>Avatar</p>
+
+                                                <button>Style Avatar</button>
+                                             </div>
+                                             <div>
+                                                <p>Moderation</p>
+
+                                                <button>Mod Settings</button>
+                                             </div>
+                                          </div>
+                                          <hr>
+                                          <div class="links">
+                                             <button>Add Social Link</button>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+
+                              </div>
+                              <div class="col-lg-8">
+                                 <div id="post-modal-data" class="card">
+                                    <div class="card-header d-flex justify-content-between">
+                                       <div class="header-title">
+                                          <h4 class="card-title">Tạo bài viết</h4>
+                                       </div>
+                                    </div>
+                                    <div class="card-body">
+                     <div class="d-flex align-items-center">
+                        <div class="user-img">
+                           <img src="images/user/1.jpg" alt="userimg" class="avatar-60 rounded-circle">
+                        </div>
+                        <form class="post-text ms-3 w-100 " data-bs-toggle="modal" data-bs-target="#post-modal"
+                           action="javascript:void();">
+                           <div
+                                          contenteditable="true"
+                                          placeholder="Bạn đang nghĩ gì..."
+                                          class="form-control mb-3 rounded"
+                                          id="postContent"
+                                          style="border: none; resize: none; overflow-wrap: break-word; word-break: break-word; width: 100%; padding: 8px; line-height: 1.5; min-height: 48px; overflow-y: auto;"
+                                          oninput="adjustContentHeight(this);">
+                                          Bạn đang nghĩ gì...
+                                       </div>
+                        </form>
+                     </div>
+                     <hr>
+                     <ul class=" post-opt-block d-flex list-inline m-0 p-0 flex-wrap">
+                        <li class="me-3 mb-md-0 mb-2">
+                           <a href="#" class="btn btn-soft-primary">
+                              <img src="images/small/07.png" alt="icon" class="img-fluid me-2">
+                              Ảnh/Video
+                           </a>
+                        </li>
+                        <!-- <li class="me-3 mb-md-0 mb-2">
+                           <a href="#" class="btn btn-soft-primary">
+                              <img src="images/small/08.png" alt="icon" class="img-fluid me-2"> Tag Bạn
+                              bè
+                           </a>
+                        </li> -->
+                        <li class="me-3">
+                           <a href="#" class="btn btn-soft-primary">
+                              <img src="images/small/09.png" alt="icon" class="img-fluid me-2"> Cộng Đồng
+                           </a>
+                        </li>
+                        <!-- <li>
+                           <button class="btn btn-soft-primary">
+                              <div class="card-header-toolbar d-flex align-items-center">
+                                 <div class="dropdown">
+                                    <div class="dropdown-toggle" id="post-option" data-bs-toggle="dropdown">
+                                       <i class="ri-more-fill"></i>
+                                    </div>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="post-option"
+                                       style="">
+                                       <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                          data-bs-target="#post-modal">Check in</a>
+                                       <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                          data-bs-target="#post-modal">Live Video</a>
+                                       <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                          data-bs-target="#post-modal">Gif</a>
+                                       <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                          data-bs-target="#post-modal">Watch Party</a>
+                                       <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                          data-bs-target="#post-modal">Play with Friend</a>
+                                    </div>
+                                 </div>
+                              </div>
+                           </button>
+                        </li> -->
                      </ul>
                   </div>
-                  <div class="user-detail text-center mb-3">
-                     <div class="profile-img">
-                        <img src="images/user/11.png" alt="profile-img" class="avatar-130 img-fluid" />
-                     </div>
-                     <div class="profile-detail">
-                        <h3 class="">Bni Cyst</h3>
-                     </div>
-                  </div>
-                  <div class="profile-info p-3 d-flex align-items-center justify-content-between position-relative">
-                     <!-- <div class="social-links">
-                        <ul class="social-data-block d-flex align-items-center justify-content-between list-inline p-0 m-0">
-                           <li class="text-center pe-3">
-                              <a href="#"><img src="images/icon/08.png" class="img-fluid rounded" alt="facebook"></a>
-                           </li>
-                           <li class="text-center pe-3">
-                              <a href="#"><img src="images/icon/09.png" class="img-fluid rounded" alt="Twitter"></a>
-                           </li>
-                           <li class="text-center pe-3">
-                              <a href="#"><img src="images/icon/10.png" class="img-fluid rounded" alt="Instagram"></a>
-                           </li>
-                           <li class="text-center pe-3">
-                              <a href="#"><img src="images/icon/11.png" class="img-fluid rounded" alt="Google plus"></a>
-                           </li>
-                           <li class="text-center pe-3">
-                              <a href="#"><img src="images/icon/12.png" class="img-fluid rounded" alt="You tube"></a>
-                           </li>
-                           <li class="text-center md-pe-3 pe-0">
-                              <a href="#"><img src="images/icon/13.png" class="img-fluid rounded" alt="linkedin"></a>
-                           </li>
-                        </ul>
-                     </div> -->
-                     <div class="social-info">
-                        <ul class="social-data-block d-flex align-items-center justify-content-between list-inline p-0 m-0">
-                           <li class="text-center ps-3">
-                              <h6>Bài đăng</h6>
-                              <p class="mb-0">1</p>
-                           </li>
-                           <li class="text-center ps-3">
-                              <h6>Người theo dõi</h6>
-                              <p class="mb-0">1</p>
-                           </li>
-                           <li class="text-center ps-3">
-                              <h6>Đang theo dõi</h6>
-                              <p class="mb-0">1</p>
-                           </li>
-                        </ul>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <!-- <div class="card">
-            <div class="card-body p-0">
-               <div class="user-tabing">
-                  <ul class="nav nav-pills d-flex align-items-center justify-content-center profile-feed-items p-0 m-0">
-                     <li class="nav-item col-12 col-sm-3 p-0">
-                        <a class="nav-link active" href="#pills-timeline-tab" data-bs-toggle="pill" data-bs-target="#timeline" role="button">Dòng thời gian</a>
-                     </li>
-                     <li class="nav-item col-12 col-sm-3 p-0">
-                        <a class="nav-link" href="#pills-about-tab" data-bs-toggle="pill" data-bs-target="#about" role="button">About</a>
-                     </li>
-                     <li class="nav-item col-12 col-sm-3 p-0">
-                        <a class="nav-link" href="#pills-friends-tab" data-bs-toggle="pill" data-bs-target="#friends" role="button">Bạn bè</a>
-                     </li>
-                     <li class="nav-item col-12 col-sm-3 p-0">
-                        <a class="nav-link" href="#pills-photos-tab" data-bs-toggle="pill" data-bs-target="#photos" role="button">Ảnh</a>
-                     </li>
-                  </ul>
-               </div>
-            </div>
-         </div> -->
-      </div>
-      <div class="col-sm-12">
-         <div class="tab-content">
-            <div class="tab-pane fade show active" id="timeline" role="tabpanel">
-               <div class="card-body p-0">
-                  <div class="row">
-                     <div class="col-lg-4">
-                        <div class="card">
-                           <div class="card-body">
-                              <a href="#"><span class="badge badge-pill bg-primary font-weight-normal ms-auto me-1"><i class="ri-star-line"></i></span> 27 Items for yoou</a>
-                           </div>
-                        </div>
-                        <div class="card">
-                           <div class="card-header d-flex justify-content-between">
-                              <div class="header-title">
-                                 <h4 class="card-title">Hà Việt Long</h4>
-                              </div>
-                              <div class="card-header-toolbar d-flex align-items-center">
-                                 <p class="m-0"><a href="javacsript:void();"> Share Profile </a></p>
-                              </div>
-                           </div>
-                           <!-- <div class="card-body">
-                              <div class="row">
-                                 <div class="col-sm-12">
-                                    <div class="event-post position-relative">
-                                       <a href="#"><img src="images/page-img/07.jpg" alt="gallary-image" class="img-fluid rounded"></a>
-                                       <div class="job-icon-position">
-                                          <div class="job-icon bg-primary p-2 d-inline-block rounded-circle"><i class="ri-briefcase-line text-white"></i></div>
-                                       </div>
-                                       <div class="card-body text-center p-2">
-                                          <h5>Started New Job at Apple</h5>
-                                          <p>January 24, 2019</p>
-                                       </div>
-                                    </div>
+                                   
                                  </div>
-                                 <div class="col-sm-12">
-                                    <div class="event-post position-relative">
-                                       <a href="#"><img src="images/page-img/06.jpg" alt="gallary-image" class="img-fluid rounded"></a>
-                                       <div class="job-icon-position">
-                                          <div class="job-icon bg-primary p-2 d-inline-block rounded-circle"><i class="ri-briefcase-line text-white"></i></div>
-                                       </div>
-                                       <div class="card-body text-center p-2">
-                                          <h5>Freelance Photographer</h5>
-                                          <p class="mb-0">January 24, 2019</p>
-                                       </div>
-                                    </div>
+
+                                 <div class="notification-body">
+                                    <p class="notification-message">Bạn chưa tạo bài viết nào</p>
                                  </div>
-                              </div>
-                           </div> -->
-                           <div class="profile-card">
-                              <div class="header">
-                                  <div class="profile-pic"></div>
-                              </div>
-                              <div class="content">
-                                  <h2>LongCuto</h2>
-                                  <button class="share-btn">Share</button>
-                                  <div class="stats">
-                                      <div>
-                                          <span>1</span>
-                                          <p>Post karma</p>
-                                      </div>
-                                      <div>
-                                          <span>0</span>
-                                          <p>Comment karma</p>
-                                      </div>
-                                  </div>
-                                  <!-- <p>Cake day: May 9, 2024</p>
-                                  <p>Gold earned: 0</p>
-                                  <hr> -->
-                                  <div class="settings">
-                                      <div>
-                                          <p>Profile</p>
-                                       
-                                          <button>Edit Profile</button>
-                                      </div>
-                                      <div>
-                                          <p>Avatar</p>
-                                      
-                                          <button>Style Avatar</button>
-                                      </div>
-                                      <div>
-                                          <p>Moderation</p>
-                                       
-                                          <button>Mod Settings</button>
-                                      </div>
-                                  </div>
-                                  <hr>
-                                  <div class="links">
-                                      <button>Add Social Link</button>
-                                  </div>
-                              </div>
-                          </div>
-                        </div>
-                        <!-- <div class="card">
-                           <div class="card-header d-flex justify-content-between">
-                              <div class="header-title">
-                                 <h4 class="card-title">Photos</h4>
-                              </div>
-                              <div class="card-header-toolbar d-flex align-items-center">
-                                 <p class="m-0"><a href="javacsript:void();">Add Photo </a></p>
-                              </div>
-                           </div>
-                           <div class="card-body">
-                              <ul class="profile-img-gallary p-0 m-0 list-unstyled">
-                                 <li class=""><a href="#"><img src="images/page-img/g1.jpg" alt="gallary-image" class="img-fluid" /></a></li>
-                                 <li class=""><a href="#"><img src="images/page-img/g2.jpg" alt="gallary-image" class="img-fluid" /></a></li>
-                                 <li class=""><a href="#"><img src="images/page-img/g3.jpg" alt="gallary-image" class="img-fluid" /></a></li>
-                                 <li class=""><a href="#"><img src="images/page-img/g4.jpg" alt="gallary-image" class="img-fluid" /></a></li>
-                                 <li class=""><a href="#"><img src="images/page-img/g5.jpg" alt="gallary-image" class="img-fluid" /></a></li>
-                                 <li class=""><a href="#"><img src="images/page-img/g6.jpg" alt="gallary-image" class="img-fluid" /></a></li>
-                                 <li class=""><a href="#"><img src="images/page-img/g7.jpg" alt="gallary-image" class="img-fluid" /></a></li>
-                                 <li class=""><a href="#"><img src="images/page-img/g8.jpg" alt="gallary-image" class="img-fluid" /></a></li>
-                                 <li class=""><a href="#"><img src="images/page-img/g9.jpg" alt="gallary-image" class="img-fluid" /></a></li>
-                              </ul>
-                           </div>
-                        </div> -->
-                        <!-- <div class="card">
-                           <div class="card-header d-flex justify-content-between">
-                              <div class="header-title">
-                                 <h4 class="card-title">Friends</h4>
-                              </div>
-                              <div class="card-header-toolbar d-flex align-items-center">
-                                 <p class="m-0"><a href="javacsript:void();">Add New </a></p>
-                              </div>
-                           </div>
-                           <div class="card-body">
-                              <ul class="profile-img-gallary p-0 m-0 list-unstyled">
-                                 <li class="">
-                                    <a href="#">
-                                    <img src="images/user/05.jpg" alt="gallary-image" class="img-fluid" /></a>
-                                    <h6 class="mt-2 text-center">Anna Rexia</h6>
-                                 </li>
-                                 <li class="">
-                                    <a href="#"><img src="images/user/06.jpg" alt="gallary-image" class="img-fluid" /></a>
-                                    <h6 class="mt-2 text-center">Tara Zona</h6>
-                                 </li>
-                                 <li class="">
-                                    <a href="#"><img src="images/user/07.jpg" alt="gallary-image" class="img-fluid" /></a>
-                                    <h6 class="mt-2 text-center">Polly Tech</h6>
-                                 </li>
-                                 <li class="">
-                                    <a href="#"><img src="images/user/08.jpg" alt="gallary-image" class="img-fluid" /></a>
-                                    <h6 class="mt-2 text-center">Bill Emia</h6>
-                                 </li>
-                                 <li class="">
-                                    <a href="#"><img src="images/user/09.jpg" alt="gallary-image" class="img-fluid" /></a>
-                                    <h6 class="mt-2 text-center">Moe Fugga</h6>
-                                 </li>
-                                 <li class="">
-                                    <a href="#"><img src="images/user/10.jpg" alt="gallary-image" class="img-fluid" /></a>
-                                    <h6 class="mt-2 text-center">Hal Appeno </h6>
-                                 </li>
-                                 <li class="">
-                                    <a href="#"><img src="images/user/07.jpg" alt="gallary-image" class="img-fluid" /></a>
-                                    <h6 class="mt-2 text-center">Zack Lee</h6>
-                                 </li>
-                                 <li class="">
-                                    <a href="#"><img src="images/user/06.jpg" alt="gallary-image" class="img-fluid" /></a>
-                                    <h6 class="mt-2 text-center">Terry Aki</h6>
-                                 </li>
-                                 <li class="">
-                                    <a href="#"><img src="images/user/05.jpg" alt="gallary-image" class="img-fluid" /></a>
-                                    <h6 class="mt-2 text-center">Greta Life</h6>
-                                 </li>
-                              </ul>
-                           </div>
-                        </div> -->
-                     </div>
-                     <div class="col-lg-8">
-                        <div id="post-modal-data" class="card">
-                           <div class="card-header d-flex justify-content-between">
-                              <div class="header-title">
-                                 <h4 class="card-title">Tạo bài viết</h4>
-                              </div>
-                           </div>
-                           <div class="card-body">
-                              <div class="d-flex align-items-center">
-                                 <div class="user-img">
-                                    <img src="images/user/1.jpg" alt="userimg" class="avatar-60 rounded-circle">
+                                 <div class="col-sm-12 text-center">
+                                    <img src="images/page-img/page-load-loader.gif" alt="loader" style="height: 100px;">
                                  </div>
-                                 <form class="post-text ms-3 w-100 "  data-bs-toggle="modal" data-bs-target="#post-modal" action="#">
-                                    <input type="text" class="form-control rounded" placeholder="Write something here..." style="border:none;">
-                                 </form>
-                              </div>
-                              <hr>
-                               <ul class=" post-opt-block d-flex list-inline m-0 p-0 flex-wrap">
-                                    <li class="bg-soft-primary rounded p-2 pointer d-flex align-items-center me-3 mb-md-0 mb-2"><img src="images/small/07.png" alt="icon" class="img-fluid me-2"> Photo/Video</li>
-                                    <!-- <li class="bg-soft-primary rounded p-2 pointer d-flex align-items-center me-3 mb-md-0 mb-2"><img src="images/small/08.png" alt="icon" class="img-fluid me-2"> Tag Friend</li> -->
-                                    <li class="bg-soft-primary rounded p-2 pointer d-flex align-items-center me-3"><img src="images/small/09.png" alt="icon" class="img-fluid me-2"> Feeling/Activity</li>
-                                    <li class="bg-soft-primary rounded p-2 pointer text-center">
-                                        <div class="card-header-toolbar d-flex align-items-center">
-                                        <div class="dropdown">
-                                            <div class="dropdown-toggle" id="post-option"   data-bs-toggle="dropdown">
-                                                <i class="ri-more-fill h4"></i>
-                                            </div>
-                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="post-option" style="">
-                                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#post-modal">Check in</a>
-                                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#post-modal">Live Video</a>
-                                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#post-modal">Gif</a>
-                                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#post-modal">Watch Party</a>
-                                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#post-modal">Play with Friend</a>
-                                            </div>
-                                        </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                           </div>
-                           <div class="modal fade" id="post-modal" tabindex="-1"  aria-labelledby="post-modalLabel" aria-hidden="true" >
-                              <div class="modal-dialog  modal-lg modal-fullscreen-sm-down">
-                                 <div class="modal-content">
-                                    <div class="modal-header">
-                                       <h5 class="modal-title" id="post-modalLabel">Create Post</h5>
-                                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="ri-close-fill"></i></button>
-                                    </div>
-                                    <div class="modal-body">
-                                       <div class="d-flex align-items-center">
-                                          <div class="user-img">
-                                             <img src="images/user/1.jpg" alt="userimg" class="avatar-60 rounded-circle img-fluid">
-                                          </div>
-                                          <form class="post-text ms-3 w-100" action="#">
-                                             <input type="text" class="form-control rounded" placeholder="Write something here..." style="border:none;">
-                                          </form>
-                                       </div>
-                                       <hr>
-                                       <ul class="d-flex flex-wrap align-items-center list-inline m-0 p-0">
-                                          <li class="col-md-6 mb-3">
-                                             <div class="bg-soft-primary rounded p-2 pointer me-3"><a href="#"></a><img src="images/small/07.png" alt="icon" class="img-fluid"> Photo/Video</div>
-                                          </li>
-                                          <li class="col-md-6 mb-3">
-                                             <div class="bg-soft-primary rounded p-2 pointer me-3"><a href="#"></a><img src="images/small/08.png" alt="icon" class="img-fluid"> Tag Friend</div>
-                                          </li>
-                                          <li class="col-md-6 mb-3">
-                                             <div class="bg-soft-primary rounded p-2 pointer me-3"><a href="#"></a><img src="images/small/09.png" alt="icon" class="img-fluid"> Feeling/Activity</div>
-                                          </li>
-                                          <li class="col-md-6 mb-3">
-                                             <div class="bg-soft-primary rounded p-2 pointer me-3"><a href="#"></a><img src="images/small/10.png" alt="icon" class="img-fluid"> Check in</div>
-                                          </li>
-                                          <li class="col-md-6 mb-3">
-                                             <div class="bg-soft-primary rounded p-2 pointer me-3"><a href="#"></a><img src="images/small/11.png" alt="icon" class="img-fluid"> Live Video</div>
-                                          </li>
-                                          <li class="col-md-6 mb-3">
-                                             <div class="bg-soft-primary rounded p-2 pointer me-3"><a href="#"></a><img src="images/small/12.png" alt="icon" class="img-fluid"> Gif</div>
-                                          </li>
-                                          <li class="col-md-6 mb-3">
-                                             <div class="bg-soft-primary rounded p-2 pointer me-3"><a href="#"></a><img src="images/small/13.png" alt="icon" class="img-fluid"> Watch Party</div>
-                                          </li>
-                                          <li class="col-md-6 mb-3">
-                                             <div class="bg-soft-primary rounded p-2 pointer me-3"><a href="#"></a><img src="images/small/14.png" alt="icon" class="img-fluid"> Play with Friends</div>
-                                          </li>
-                                       </ul>
-                                       <hr>
-                                       <div class="other-option">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <div class="user-img me-3">
-                                                   <img src="images/user/1.jpg" alt="userimg" class="avatar-60 rounded-circle img-fluid">
-                                                </div>
-                                                <h6>Your Story</h6>
-                                             </div>
-                                             <div class="card-post-toolbar">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                                   <span class="btn btn-primary">Friend</span>
-                                                   </span>
-                                                   <div class="dropdown-menu m-0 p-0">
-                                                      <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                            <i class="ri-save-line h4"></i>
-                                                            <div class="data ms-2">
-                                                               <h6>Public</h6>
-                                                               <p class="mb-0">Anyone on or off Facebook</p>
-                                                            </div>
-                                                         </div>
-                                                      </a>
-                                                      <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                           <i class="ri-close-circle-line h4"></i>
-                                                            <div class="data ms-2">
-                                                               <h6>Friends</h6>
-                                                               <p class="mb-0">Your Friend on facebook</p>
-                                                            </div>
-                                                         </div>
-                                                      </a>
-                                                      <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                           <i class="ri-user-unfollow-line h4"></i>
-                                                            <div class="data ms-2">
-                                                               <h6>Friends except</h6>
-                                                               <p class="mb-0">Don't show to some friends</p>
-                                                            </div>
-                                                         </div>
-                                                      </a>
-                                                      <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                           <i class="ri-notification-line h4"></i>
-                                                            <div class="data ms-2">
-                                                               <h6>Only Me</h6>
-                                                               <p class="mb-0">Only me</p>
-                                                            </div>
-                                                         </div>
-                                                      </a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                       <button type="submit" class="btn btn-primary d-block w-100 mt-3">Post</button>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                       </div>
-                       
-                       <div class="page-wrapper">
-                        <div class="full-screen-overlay">
-                          <div class="notification-container">
-                            <div class="notification-header">
-                              <h2 class="notification-title">Thông Báo</h2>
-                            </div>
-                            <div class="notification-body">
-                              <p class="notification-message">Bạn chưa tạo bài viết nào</p>
-                            </div>
-                            <div class="notification-footer">
-                              <span class="footer-text">Hãy tạo bài viết mới để bắt đầu.</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                        <!-- <div class="card">
-                           <div class="card-body">
-                              <div class="post-item">
-                                 <div class="user-post-data pb-3">
-                                    <div class="d-flex justify-content-between">
-                                       <div class="me-3">
-                                          <img class="rounded-circle  avatar-60" src="images/user/1.jpg" alt="">
-                                       </div>
-                                       <div class="w-100">
-                                          <div class="d-flex justify-content-between flex-wrap">
-                                             <div class="">
-                                                <h5 class="mb-0 d-inline-block"><a href="#" class="">Bni Cyst</a></h5>
-                                                <p class="ms-1 mb-0 d-inline-block">Add New Post</p>
-                                                <p class="mb-0">3 hour ago</p>
-                                             </div>
-                                             <div class="card-post-toolbar">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                                   <i class="ri-more-fill"></i>
-                                                   </span>
-                                                   <div class="dropdown-menu m-0 p-0">
-                                                       <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                          <i class="ri-save-line h4"></i>
-                                                            <div class="data ms-2">
-                                                               <h6>Save Post</h6>
-                                                               <p class="mb-0">Add this to your saved items</p>
-                                                            </div>
-                                                         </div>
-                                                      </a>
-                                                      <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                           <i class="ri-pencil-line h4"></i>
-                                                            <div class="data ms-2">
-                                                               <h6>Edit Post</h6>
-                                                               <p class="mb-0">Update your post and saved items</p>
-                                                            </div>
-                                                         </div>
-                                                      </a>
-                                                      <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                            <i class="ri-close-circle-line h4"></i>
-                                                            <div class="data ms-2">
-                                                               <h6>Hide From Timeline</h6>
-                                                               <p class="mb-0">See fewer posts like this.</p>
-                                                            </div>
-                                                         </div>
-                                                      </a>
-                                                      <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                           <i class="ri-delete-bin-7-line h4"></i>
-                                                            <div class="data ms-2">
-                                                               <h6>Delete</h6>
-                                                               <p class="mb-0">Remove thids Post on Timeline</p>
-                                                            </div>
-                                                         </div>
-                                                      </a>
-                                                      <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                          <i class="ri-notification-line h4"></i>
-                                                            <div class="data ms-2">
-                                                               <h6>Notifications</h6>
-                                                               <p class="mb-0">Turn on notifications for this post</p>
-                                                            </div>
-                                                         </div>
-                                                      </a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div class="user-post">
-                                    <a href="#"><img src="images/page-img/p1.jpg" alt="post-image" class="img-fluid w-100" /></a>
-                                 </div>
-                                 <div class="comment-area mt-3">
-                                    <div class="d-flex justify-content-between align-items-center flex-wrap">
-                                       <div class="like-block position-relative d-flex align-items-center">
-                                          <div class="d-flex align-items-center">
-                                             <div class="like-data">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                                   <img src="images/icon/01.png" class="img-fluid" alt="">
-                                                   </span>
-                                                   <div class="dropdown-menu py-2">
-                                                      <a class="ms-2 me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Like"><img src="images/icon/01.png" class="img-fluid" alt=""></a>
-                                                      <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Love"><img src="images/icon/02.png" class="img-fluid" alt=""></a>
-                                                      <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Happy"><img src="images/icon/03.png" class="img-fluid" alt=""></a>
-                                                      <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="HaHa"><img src="images/icon/04.png" class="img-fluid" alt=""></a>
-                                                      <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Think"><img src="images/icon/05.png" class="img-fluid" alt=""></a>
-                                                      <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Sade" ><img src="images/icon/06.png" class="img-fluid" alt=""></a>
-                                                      <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Lovely"><img src="images/icon/07.png" class="img-fluid" alt=""></a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                             <div class="total-like-block ms-2 me-3">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                                   140 Likes
-                                                   </span>
-                                                   <div class="dropdown-menu">
-                                                      <a class="dropdown-item" href="#">Max Emum</a>
-                                                      <a class="dropdown-item" href="#">Bill Yerds</a>
-                                                      <a class="dropdown-item" href="#">Hap E. Birthday</a>
-                                                      <a class="dropdown-item" href="#">Tara Misu</a>
-                                                      <a class="dropdown-item" href="#">Midge Itz</a>
-                                                      <a class="dropdown-item" href="#">Sal Vidge</a>
-                                                      <a class="dropdown-item" href="#">Other</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                          <div class="total-comment-block">
-                                             <div class="dropdown">
-                                                <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                                20 Comment
-                                                </span>
-                                                <div class="dropdown-menu">
-                                                   <a class="dropdown-item" href="#">Max Emum</a>
-                                                   <a class="dropdown-item" href="#">Bill Yerds</a>
-                                                   <a class="dropdown-item" href="#">Hap E. Birthday</a>
-                                                   <a class="dropdown-item" href="#">Tara Misu</a>
-                                                   <a class="dropdown-item" href="#">Midge Itz</a>
-                                                   <a class="dropdown-item" href="#">Sal Vidge</a>
-                                                   <a class="dropdown-item" href="#">Other</a>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                        <div class="share-block d-flex align-items-center feather-icon mt-2 mt-md-0">
-                                            <a href="#" data-bs-toggle="offcanvas" data-bs-target="#share-btn" aria-controls="share-btn"><i class="ri-share-line"></i>
-                                            <span class="ms-1">99 Share</span></a>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <ul class="post-comments p-0 m-0">
-                                       <li class="mb-2">
-                                          <div class="d-flex flex-wrap">
-                                             <div class="user-img">
-                                                <img src="images/user/02.jpg" alt="userimg" class="avatar-35 rounded-circle img-fluid">
-                                             </div>
-                                             <div class="comment-data-block ms-3">
-                                                <h6>Monty Carlo</h6>
-                                                <p class="mb-0">Lorem ipsum dolor sit amet</p>
-                                                <div class="d-flex flex-wrap align-items-center comment-activity">
-                                                   <a href="#">like</a>
-                                                   <a href="#">reply</a>
-                                                   <a href="#">translate</a>
-                                                   <span> 5 min </span>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </li>
-                                       <li>
-                                          <div class="d-flex flex-wrap">
-                                             <div class="user-img">
-                                                <img src="images/user/03.jpg" alt="userimg" class="avatar-35 rounded-circle img-fluid">
-                                             </div>
-                                             <div class="comment-data-block ms-3">
-                                                <h6>Paul Molive</h6>
-                                                <p class="mb-0">Lorem ipsum dolor sit amet</p>
-                                                <div class="d-flex flex-wrap align-items-center comment-activity">
-                                                   <a href="#">like</a>
-                                                   <a href="#">reply</a>
-                                                   <a href="#">translate</a>
-                                                   <span> 5 min </span>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </li>
-                                    </ul>
-                                    <form class="comment-text d-flex align-items-center mt-3" action="javascript:void(0);">
-                                       <input type="text" class="form-control rounded" placeholder="Enter Your Comment">
-                                       <div class="comment-attagement d-flex">
-                                          <a href="#"><i class="ri-link me-3"></i></a>
-                                          <a href="#"><i class="ri-user-smile-line me-3"></i></a>
-                                          <a href="#"><i class="ri-camera-line me-3"></i></a>
-                                       </div>
-                                    </form>
-                                 </div>
-                              </div>
-                              <div class="post-item">
-                                 <div class="user-post-data py-3">
-                                    <div class="d-flex  justify-content-between">
-                                       <div class="me-3">
-                                          <img class="rounded-circle  avatar-60" src="images/user/1.jpg" alt="">
-                                       </div>
-                                       <div class="w-100">
-                                          <div class="d-flex justify-content-between">
-                                             <div class="">
-                                                <h5 class="mb-0 d-inline-block me-1"><a href="#" class="">Bni Cyst</a></h5>
-                                                <p class="mb-0 d-inline-block">Share Anna Mull's Post</p>
-                                                <p class="mb-0">5 hour ago</p>
-                                             </div>
-                                             <div class="card-post-toolbar">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                                   <i class="ri-more-fill"></i>
-                                                   </span>
-                                                    <div class="dropdown-menu m-0 p-0">
-                                                       <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                            <i class="ri-save-line h4"></i>
-                                                            <div class="data ms-2">
-                                                               <h6>Save Post</h6>
-                                                               <p class="mb-0">Add this to your saved items</p>
-                                                            </div>
-                                                         </div>
-                                                      </a>
-                                                      <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                           <i class="ri-pencil-line h4"></i>
-                                                            <div class="data ms-2">
-                                                               <h6>Edit Post</h6>
-                                                               <p class="mb-0">Update your post and saved items</p>
-                                                            </div>
-                                                         </div>
-                                                      </a>
-                                                      <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                           <i class="ri-close-circle-line h4"></i>
-                                                            <div class="data ms-2">
-                                                               <h6>Hide From Timeline</h6>
-                                                               <p class="mb-0">See fewer posts like this.</p>
-                                                            </div>
-                                                         </div>
-                                                      </a>
-                                                      <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                          <i class="ri-delete-bin-7-line h4"></i>
-                                                            <div class="data ms-2">
-                                                               <h6>Delete</h6>
-                                                               <p class="mb-0">Remove thids Post on Timeline</p>
-                                                            </div>
-                                                         </div>
-                                                      </a>
-                                                      <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                            <i class="ri-notification-line h4"></i>
-                                                            <div class="data ms-2">
-                                                               <h6>Notifications</h6>
-                                                               <p class="mb-0">Turn on notifications for this post</p>
-                                                            </div>
-                                                         </div>
-                                                      </a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div class="user-post">
-                                    <a href="#"><img src="images/page-img/p3.jpg" alt="post-image" class="img-fluid w-100" /></a>
-                                 </div>
-                                 <div class="comment-area mt-3">
-                                    <div class="d-flex justify-content-between align-items-center flex-wrap">
-                                       <div class="like-block position-relative d-flex align-items-center">
-                                          <div class="d-flex align-items-center">
-                                             <div class="like-data">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                                   <img src="images/icon/01.png" class="img-fluid" alt="">
-                                                   </span>
-                                                   <div class="dropdown-menu py-2">
-                                                      <a class="ms-2 me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Like"><img src="images/icon/01.png" class="img-fluid" alt=""></a>
-                                                      <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Love"><img src="images/icon/02.png" class="img-fluid" alt=""></a>
-                                                      <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Happy"><img src="images/icon/03.png" class="img-fluid" alt=""></a>
-                                                      <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="HaHa"><img src="images/icon/04.png" class="img-fluid" alt=""></a>
-                                                      <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Think"><img src="images/icon/05.png" class="img-fluid" alt=""></a>
-                                                      <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Sade" ><img src="images/icon/06.png" class="img-fluid" alt=""></a>
-                                                      <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Lovely"><img src="images/icon/07.png" class="img-fluid" alt=""></a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                             <div class="total-like-block ms-2 me-3">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                                   140 Likes
-                                                   </span>
-                                                   <div class="dropdown-menu">
-                                                      <a class="dropdown-item" href="#">Max Emum</a>
-                                                      <a class="dropdown-item" href="#">Bill Yerds</a>
-                                                      <a class="dropdown-item" href="#">Hap E. Birthday</a>
-                                                      <a class="dropdown-item" href="#">Tara Misu</a>
-                                                      <a class="dropdown-item" href="#">Midge Itz</a>
-                                                      <a class="dropdown-item" href="#">Sal Vidge</a>
-                                                      <a class="dropdown-item" href="#">Other</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                          <div class="total-comment-block">
-                                             <div class="dropdown">
-                                                <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                                20 Comment
-                                                </span>
-                                                <div class="dropdown-menu">
-                                                   <a class="dropdown-item" href="#">Max Emum</a>
-                                                   <a class="dropdown-item" href="#">Bill Yerds</a>
-                                                   <a class="dropdown-item" href="#">Hap E. Birthday</a>
-                                                   <a class="dropdown-item" href="#">Tara Misu</a>
-                                                   <a class="dropdown-item" href="#">Midge Itz</a>
-                                                   <a class="dropdown-item" href="#">Sal Vidge</a>
-                                                   <a class="dropdown-item" href="#">Other</a>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                        <div class="share-block d-flex align-items-center feather-icon mt-2 mt-md-0">
-                                            <a href="#" data-bs-toggle="offcanvas" data-bs-target="#share-btn" aria-controls="share-btn"><i class="ri-share-line"></i>
-                                            <span class="ms-1">99 Share</span></a>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <ul class="post-comments p-0 m-0">
-                                       <li class="mb-2">
-                                          <div class="d-flex flex-wrap">
-                                             <div class="user-img">
-                                                <img src="images/user/02.jpg" alt="userimg" class="avatar-35 rounded-circle img-fluid">
-                                             </div>
-                                             <div class="comment-data-block ms-3">
-                                                <h6>Monty Carlo</h6>
-                                                <p class="mb-0">Lorem ipsum dolor sit amet</p>
-                                                <div class="d-flex flex-wrap align-items-center comment-activity">
-                                                   <a href="#">like</a>
-                                                   <a href="#">reply</a>
-                                                   <a href="#">translate</a>
-                                                   <span> 5 min </span>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </li>
-                                       <li>
-                                          <div class="d-flex flex-wrap">
-                                             <div class="user-img">
-                                                <img src="images/user/03.jpg" alt="userimg" class="avatar-35 rounded-circle img-fluid">
-                                             </div>
-                                             <div class="comment-data-block ms-3">
-                                                <h6>Paul Molive</h6>
-                                                <p class="mb-0">Lorem ipsum dolor sit amet</p>
-                                                <div class="d-flex flex-wrap align-items-center comment-activity">
-                                                   <a href="#">like</a>
-                                                   <a href="#">reply</a>
-                                                   <a href="#">translate</a>
-                                                   <span> 5 min </span>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </li>
-                                    </ul>
-                                    <form class="comment-text d-flex align-items-center mt-3" action="javascript:void(0);">
-                                       <input type="text" class="form-control rounded" placeholder="Enter Your Comment">
-                                       <div class="comment-attagement d-flex">
-                                          <a href="#"><i class="ri-link me-3"></i></a>
-                                          <a href="#"><i class="ri-user-smile-line me-3"></i></a>
-                                          <a href="#"><i class="ri-camera-line me-3"></i></a>
-                                       </div>
-                                    </form>
-                                 </div>
-                              </div>
-                              <div class="post-item">
-                                 <div class="user-post-data py-3">
-                                    <div class="d-flex justify-content-between">
-                                       <div class="me-3">
-                                          <img class="rounded-circle avatar-60" src="images/user/1.jpg" alt="">
-                                       </div>
-                                       <div class="w-100">
-                                          <div class="d-flex justify-content-between">
-                                             <div class="">
-                                                <h5 class="mb-0 d-inline-block"><a href="#" class="">Bni Cyst</a></h5>
-                                                <p class="ms-1 mb-0 d-inline-block">Update his Status</p>
-                                                <p class="mb-0">7 hour ago</p>
-                                             </div>
-                                             <div class="card-post-toolbar">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                                   <i class="ri-more-fill"></i>
-                                                   </span>
-                                                   <div class="dropdown-menu m-0 p-0">
-                                                       <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                           <i class="ri-save-line h4"></i>
-                                                            <div class="data ms-2">
-                                                               <h6>Save Post</h6>
-                                                               <p class="mb-0">Add this to your saved items</p>
-                                                            </div>
-                                                         </div>
-                                                      </a>
-                                                      <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                            <i class="ri-pencil-line h4"></i>
-                                                            <div class="data ms-2">
-                                                               <h6>Edit Post</h6>
-                                                               <p class="mb-0">Update your post and saved items</p>
-                                                            </div>
-                                                         </div>
-                                                      </a>
-                                                      <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                          <i class="ri-close-circle-line h4"></i>
-                                                            <div class="data ms-2">
-                                                               <h6>Hide From Timeline</h6>
-                                                               <p class="mb-0">See fewer posts like this.</p>
-                                                            </div>
-                                                         </div>
-                                                      </a>
-                                                      <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                            <i class="ri-delete-bin-7-line h4"></i>
-                                                            <div class="data ms-2">
-                                                               <h6>Delete</h6>
-                                                               <p class="mb-0">Remove thids Post on Timeline</p>
-                                                            </div>
-                                                         </div>
-                                                      </a>
-                                                      <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                            <i class="ri-notification-line h4"></i>
-                                                            <div class="data ms-2">
-                                                               <h6>Notifications</h6>
-                                                               <p class="mb-0">Turn on notifications for this post</p>
-                                                            </div>
-                                                         </div>
-                                                      </a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div class="user-post">
-                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</p>
-                                 </div>
-                                 <div class="comment-area mt-3">
-                                    <div class="d-flex justify-content-between align-items-center flex-wrap">
-                                       <div class="like-block position-relative d-flex align-items-center">
-                                          <div class="d-flex align-items-center">
-                                             <div class="like-data">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                                   <img src="images/icon/01.png" class="img-fluid" alt="">
-                                                   </span>
-                                                   <div class="dropdown-menu py-2">
-                                                      <a class="ms-2 me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Like"><img src="images/icon/01.png" class="img-fluid" alt=""></a>
-                                                      <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Love"><img src="images/icon/02.png" class="img-fluid" alt=""></a>
-                                                      <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Happy"><img src="images/icon/03.png" class="img-fluid" alt=""></a>
-                                                      <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="HaHa"><img src="images/icon/04.png" class="img-fluid" alt=""></a>
-                                                      <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Think"><img src="images/icon/05.png" class="img-fluid" alt=""></a>
-                                                      <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Sade" ><img src="images/icon/06.png" class="img-fluid" alt=""></a>
-                                                      <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Lovely"><img src="images/icon/07.png" class="img-fluid" alt=""></a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                             <div class="total-like-block ms-2 me-3">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                                   140 Likes
-                                                   </span>
-                                                   <div class="dropdown-menu">
-                                                      <a class="dropdown-item" href="#">Max Emum</a>
-                                                      <a class="dropdown-item" href="#">Bill Yerds</a>
-                                                      <a class="dropdown-item" href="#">Hap E. Birthday</a>
-                                                      <a class="dropdown-item" href="#">Tara Misu</a>
-                                                      <a class="dropdown-item" href="#">Midge Itz</a>
-                                                      <a class="dropdown-item" href="#">Sal Vidge</a>
-                                                      <a class="dropdown-item" href="#">Other</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                          <div class="total-comment-block">
-                                             <div class="dropdown">
-                                                <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                                20 Comment
-                                                </span>
-                                                <div class="dropdown-menu">
-                                                   <a class="dropdown-item" href="#">Max Emum</a>
-                                                   <a class="dropdown-item" href="#">Bill Yerds</a>
-                                                   <a class="dropdown-item" href="#">Hap E. Birthday</a>
-                                                   <a class="dropdown-item" href="#">Tara Misu</a>
-                                                   <a class="dropdown-item" href="#">Midge Itz</a>
-                                                   <a class="dropdown-item" href="#">Sal Vidge</a>
-                                                   <a class="dropdown-item" href="#">Other</a>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                        <div class="share-block d-flex align-items-center feather-icon mt-2 mt-md-0">
-                                            <a href="#" data-bs-toggle="offcanvas" data-bs-target="#share-btn" aria-controls="share-btn"><i class="ri-share-line"></i>
-                                            <span class="ms-1">99 Share</span></a>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <ul class="post-comments p-0 m-0">
-                                       <li class="mb-2">
-                                          <div class="d-flex flex-wrap">
-                                             <div class="user-img">
-                                                <img src="images/user/02.jpg" alt="userimg" class="avatar-35 rounded-circle img-fluid">
-                                             </div>
-                                             <div class="comment-data-block ms-3">
-                                                <h6>Monty Carlo</h6>
-                                                <p class="mb-0">Lorem ipsum dolor sit amet</p>
-                                                <div class="d-flex flex-wrap align-items-center comment-activity">
-                                                   <a href="#">like</a>
-                                                   <a href="#">reply</a>
-                                                   <a href="#">translate</a>
-                                                   <span> 5 min </span>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </li>
-                                       <li>
-                                          <div class="d-flex flex-wrap">
-                                             <div class="user-img">
-                                                <img src="images/user/03.jpg" alt="userimg" class="avatar-35 rounded-circle img-fluid">
-                                             </div>
-                                             <div class="comment-data-block ms-3">
-                                                <h6>Paul Molive</h6>
-                                                <p class="mb-0">Lorem ipsum dolor sit amet</p>
-                                                <div class="d-flex flex-wrap align-items-center comment-activity">
-                                                   <a href="#">like</a>
-                                                   <a href="#">reply</a>
-                                                   <a href="#">translate</a>
-                                                   <span> 5 min </span>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </li>
-                                    </ul>
-                                    <form class="comment-text d-flex align-items-center mt-3" action="javascript:void(0);">
-                                       <input type="text" class="form-control rounded" placeholder="Enter Your Comment">
-                                       <div class="comment-attagement d-flex">
-                                          <a href="#"><i class="ri-link me-3"></i></a>
-                                          <a href="#"><i class="ri-user-smile-line me-3"></i></a>
-                                          <a href="#"><i class="ri-camera-line me-3"></i></a>
-                                       </div>
-                                    </form>
-                                 </div>
-                              </div>
-                              <div class="post-item">
-                                 <div class="user-post-data py-3">
-                                    <div class="d-flex justify-content-between">
-                                       <div class=" me-3">
-                                          <img class="rounded-circle avatar-60" src="images/user/1.jpg" alt="">
-                                       </div>
-                                       <div class="w-100">
-                                          <div class="d-flex justify-content-between">
-                                             <div class="">
-                                                <h5 class="mb-0 d-inline-block me-1"><a href="#" class="">Bni Cyst</a></h5>
-                                                <p class=" mb-0 d-inline-block">Change Profile Picture</p>
-                                                <p class="mb-0">3 day ago</p>
-                                             </div>
-                                             <div class="card-post-toolbar">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                                   <i class="ri-more-fill"></i>
-                                                   </span>
-                                                  <div class="dropdown-menu m-0 p-0">
-                                                       <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                           <i class="ri-save-line h4"></i>
-                                                            <div class="data ms-2">
-                                                               <h6>Save Post</h6>
-                                                               <p class="mb-0">Add this to your saved items</p>
-                                                            </div>
-                                                         </div>
-                                                      </a>
-                                                      <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                           <i class="ri-pencil-line h4"></i>
-                                                            <div class="data ms-2">
-                                                               <h6>Edit Post</h6>
-                                                               <p class="mb-0">Update your post and saved items</p>
-                                                            </div>
-                                                         </div>
-                                                      </a>
-                                                      <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                            <i class="ri-close-circle-line h4"></i>
-                                                            <div class="data ms-2">
-                                                               <h6>Hide From Timeline</h6>
-                                                               <p class="mb-0">See fewer posts like this.</p>
-                                                            </div>
-                                                         </div>
-                                                      </a>
-                                                      <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                           <i class="ri-delete-bin-7-line h4"></i>
-                                                            <div class="data ms-2">
-                                                               <h6>Delete</h6>
-                                                               <p class="mb-0">Remove thids Post on Timeline</p>
-                                                            </div>
-                                                         </div>
-                                                      </a>
-                                                      <a class="dropdown-item p-3" href="#">
-                                                         <div class="d-flex align-items-top">
-                                                           <i class="ri-notification-line h4"></i>
-                                                            <div class="data ms-2">
-                                                               <h6>Notifications</h6>
-                                                               <p class="mb-0">Turn on notifications for this post</p>
-                                                            </div>
-                                                         </div>
-                                                      </a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div class="user-post text-center">
-                                    <a href="#"><img src="images/page-img/p1.jpg" alt="post-image" class="img-fluid profile-img" /></a>
-                                 </div>
-                                 <div class="comment-area mt-3">
-                                    <div class="d-flex justify-content-between align-items-center flex-wrap">
-                                       <div class="like-block position-relative d-flex align-items-center">
-                                          <div class="d-flex align-items-center">
-                                             <div class="like-data">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                                   <img src="images/icon/01.png" class="img-fluid" alt="">
-                                                   </span>
-                                                   <div class="dropdown-menu py-2">
-                                                      <a class="ms-2 me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Like"><img src="images/icon/01.png" class="img-fluid" alt=""></a>
-                                                      <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Love"><img src="images/icon/02.png" class="img-fluid" alt=""></a>
-                                                      <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Happy"><img src="images/icon/03.png" class="img-fluid" alt=""></a>
-                                                      <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="HaHa"><img src="images/icon/04.png" class="img-fluid" alt=""></a>
-                                                      <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Think"><img src="images/icon/05.png" class="img-fluid" alt=""></a>
-                                                      <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Sade" ><img src="images/icon/06.png" class="img-fluid" alt=""></a>
-                                                      <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Lovely"><img src="images/icon/07.png" class="img-fluid" alt=""></a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                             <div class="total-like-block ms-2 me-3">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                                   140 Likes
-                                                   </span>
-                                                   <div class="dropdown-menu">
-                                                      <a class="dropdown-item" href="#">Max Emum</a>
-                                                      <a class="dropdown-item" href="#">Bill Yerds</a>
-                                                      <a class="dropdown-item" href="#">Hap E. Birthday</a>
-                                                      <a class="dropdown-item" href="#">Tara Misu</a>
-                                                      <a class="dropdown-item" href="#">Midge Itz</a>
-                                                      <a class="dropdown-item" href="#">Sal Vidge</a>
-                                                      <a class="dropdown-item" href="#">Other</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                          <div class="total-comment-block">
-                                             <div class="dropdown">
-                                                <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                                20 Comment
-                                                </span>
-                                                <div class="dropdown-menu">
-                                                   <a class="dropdown-item" href="#">Max Emum</a>
-                                                   <a class="dropdown-item" href="#">Bill Yerds</a>
-                                                   <a class="dropdown-item" href="#">Hap E. Birthday</a>
-                                                   <a class="dropdown-item" href="#">Tara Misu</a>
-                                                   <a class="dropdown-item" href="#">Midge Itz</a>
-                                                   <a class="dropdown-item" href="#">Sal Vidge</a>
-                                                   <a class="dropdown-item" href="#">Other</a>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                        <div class="share-block d-flex align-items-center feather-icon mt-2 mt-md-0">
-                                            <a href="#" data-bs-toggle="offcanvas" data-bs-target="#share-btn" aria-controls="share-btn"><i class="ri-share-line"></i>
-                                            <span class="ms-1">99 Share</span></a>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <ul class="post-comments p-0 m-0">
-                                       <li class="mb-2">
-                                          <div class="d-flex flex-wrap">
-                                             <div class="user-img">
-                                                <img src="images/user/02.jpg" alt="userimg" class="avatar-35 rounded-circle img-fluid">
-                                             </div>
-                                             <div class="comment-data-block ms-3">
-                                                <h6>Monty Carlo</h6>
-                                                <p class="mb-0">Lorem ipsum dolor sit amet</p>
-                                                <div class="d-flex flex-wrap align-items-center comment-activity">
-                                                   <a href="#">like</a>
-                                                   <a href="#">reply</a>
-                                                   <a href="#">translate</a>
-                                                   <span> 5 min </span>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </li>
-                                       <li>
-                                          <div class="d-flex flex-wrap">
-                                             <div class="user-img">
-                                                <img src="images/user/03.jpg" alt="userimg" class="avatar-35 rounded-circle img-fluid">
-                                             </div>
-                                             <div class="comment-data-block ms-3">
-                                                <h6>Paul Molive</h6>
-                                                <p class="mb-0">Lorem ipsum dolor sit amet</p>
-                                                <div class="d-flex flex-wrap align-items-center comment-activity">
-                                                   <a href="#">like</a>
-                                                   <a href="#">reply</a>
-                                                   <a href="#">translate</a>
-                                                   <span> 5 min </span>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </li>
-                                    </ul>
-                                    <form class="comment-text d-flex align-items-center mt-3" action="javascript:void(0);">
-                                       <input type="text" class="form-control rounded" placeholder="Enter Your Comment">
-                                       <div class="comment-attagement d-flex">
-                                          <a href="#"><i class="ri-link me-3"></i></a>
-                                          <a href="#"><i class="ri-user-smile-line me-3"></i></a>
-                                          <a href="#"><i class="ri-camera-line me-3"></i></a>
-                                       </div>
-                                    </form>
-                                 </div>
-                              </div>
-                           </div>
-                        </div> -->
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div class="tab-pane fade" id="about" role="tabpanel" >
-               <div class="card">
-                  <div class="card-body">
-                     <div class="row">
-                        <div class="col-md-3">
-                           <ul class="nav nav-pills basic-info-items list-inline d-block p-0 m-0">
-                              <li>
-                                 <a class="nav-link active" href="#v-pills-basicinfo-tab" data-bs-toggle="pill" data-bs-target="#v-pills-basicinfo-tab" role="button">Contact and Basic Info</a>
-                              </li>
-                              <li>
-                                 <a class="nav-link" href="#v-pills-family-tab" data-bs-toggle="pill" data-bs-target="#v-pills-family" role="button">Family and Relationship</a>
-                              </li>
-                              <li>
-                                 <a class="nav-link" href="#v-pills-work-tab" data-bs-toggle="pill" data-bs-target="#v-pills-work-tab" role="button">Work and Education</a>
-                              </li>
-                              <li>
-                                 <a class="nav-link" href="#v-pills-lived-tab" data-bs-toggle="pill" data-bs-target="#v-pills-lived-tab" role="button">Places You've Lived</a>
-                              </li>
-                              <li>
-                                 <a class="nav-link" href="#v-pills-details-tab" data-bs-toggle="pill" data-bs-target="#v-pills-details-tab" role="button">Details About You</a>
-                              </li>
-                           </ul>
-                        </div>
-                        <div class="col-md-9 ps-4">
-                           <div class="tab-content" >
-                              <div class="tab-pane fade active show" id="v-pills-basicinfo-tab" role="tabpanel"  aria-labelledby="v-pills-basicinfo-tab">
-                                 <h4>Contact Information</h4>
-                                 <hr>
-                                 <div class="row">
-                                    <div class="col-3">
-                                       <h6>Email</h6>
-                                    </div>
-                                    <div class="col-9">
-                                       <p class="mb-0">Bnijohn@gmail.com</p>
-                                    </div>
-                                    <div class="col-3">
-                                       <h6>Mobile</h6>
-                                    </div>
-                                    <div class="col-9">
-                                       <p class="mb-0">(001) 4544 565 456</p>
-                                    </div>
-                                    <div class="col-3">
-                                       <h6>Address</h6>
-                                    </div>
-                                    <div class="col-9">
-                                       <p class="mb-0">United States of America</p>
-                                    </div>
-                                 </div>
-                                 <h4 class="mt-3">Websites and Social Links</h4>
-                                 <hr>
-                                 <div class="row">
-                                    <div class="col-3">
-                                       <h6>Website</h6>
-                                    </div>
-                                    <div class="col-9">
-                                       <p class="mb-0">www.bootstrap.com</p>
-                                    </div>
-                                    <div class="col-3">
-                                       <h6>Social Link</h6>
-                                    </div>
-                                    <div class="col-9">
-                                       <p class="mb-0">www.bootstrap.com</p>
-                                    </div>
-                                 </div>
-                                 <h4 class="mt-3">Basic Information</h4>
-                                 <hr>
-                                 <div class="row">
-                                    <div class="col-3">
-                                       <h6>Birth Date</h6>
-                                    </div>
-                                    <div class="col-9">
-                                       <p class="mb-0">24 January</p>
-                                    </div>
-                                    <div class="col-3">
-                                       <h6>Birth Year</h6>
-                                    </div>
-                                    <div class="col-9">
-                                       <p class="mb-0">1994</p>
-                                    </div>
-                                    <div class="col-3">
-                                       <h6>Gender</h6>
-                                    </div>
-                                    <div class="col-9">
-                                       <p class="mb-0">Female</p>
-                                    </div>
-                                    <div class="col-3">
-                                       <h6>interested in</h6>
-                                    </div>
-                                    <div class="col-9">
-                                       <p class="mb-0">Designing</p>
-                                    </div>
-                                    <div class="col-3">
-                                       <h6>language</h6>
-                                    </div>
-                                    <div class="col-9">
-                                       <p class="mb-0">English, French</p>
-                                    </div>
-                                 </div>
-                              </div>
-                              <div class="tab-pane fade" id="v-pills-family" role="tabpanel">
-                                 <h4 class="mb-3">Relationship</h4>
-                                 <ul class="suggestions-lists m-0 p-0">
-                                    <li class="d-flex mb-4 align-items-center">
-                                       <div class="user-img img-fluid"><i class="ri-add-fill"></i></div>
-                                       <div class="media-support-info ms-3">
-                                          <h6>Add Your Relationship Status</h6>
-                                       </div>
-                                    </li>
-                                 </ul>
-                                 <h4 class="mt-3 mb-3">Family Members</h4>
-                                 <ul class="suggestions-lists m-0 p-0">
-                                    <li class="d-flex mb-4 align-items-center">
-                                       <div class="user-img img-fluid"><i class="ri-add-fill"></i></div>
-                                       <div class="media-support-info ms-3">
-                                          <h6>Add Family Members</h6>
-                                       </div>
-                                    </li>
-                                    <li class="d-flex mb-4 align-items-center justify-content-between">
-                                       <div class="user-img img-fluid"><img src="images/user/01.jpg" alt="story-img" class="rounded-circle avatar-40"></div>
-                                       <div class="w-100">
-                                          <div class="d-flex justify-content-between">
-                                             <div class="ms-3">
-                                                <h6>Paul Molive</h6>
-                                                <p class="mb-0">Brothe</p>
-                                             </div>
-                                             <div class="edit-relation"><a href="#"><i class="ri-edit-line me-2"></i>Edit</a></div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                    <li class="d-flex justify-content-between mb-4  align-items-center">
-                                       <div class="user-img img-fluid"><img src="images/user/02.jpg" alt="story-img" class="rounded-circle avatar-40"></div>
-                                       <div class="w-100">
-                                          <div class="d-flex flex-wrap justify-content-between">
-                                             <div class=" ms-3">
-                                                <h6>Anna Mull</h6>
-                                                <p class="mb-0">Sister</p>
-                                             </div>
-                                             <div class="edit-relation"><a href="#"><i class="ri-edit-line me-2"></i>Edit</a></div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                    <li class="d-flex mb-4 align-items-center justify-content-between">
-                                       <div class="user-img img-fluid"><img src="images/user/03.jpg" alt="story-img" class="rounded-circle avatar-40"></div>
-                                       <div class="w-100">
-                                          <div class="d-flex justify-content-between">
-                                             <div class="ms-3">
-                                                <h6>Paige Turner</h6>
-                                                <p class="mb-0">Cousin</p>
-                                             </div>
-                                             <div class="edit-relation"><a href="#"><i class="ri-edit-line me-2"></i>Edit</a></div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                 </ul>
-                              </div>
-                              <div class="tab-pane fade" id="v-pills-work-tab" role="tabpanel" aria-labelledby="v-pills-work-tab">
-                                 <h4 class="mb-3">Work</h4>
-                                 <ul class="suggestions-lists m-0 p-0">
-                                    <li class="d-flex justify-content-between mb-4  align-items-center">
-                                       <div class="user-img img-fluid"><i class="ri-add-fill"></i></div>
-                                       <div class="ms-3">
-                                          <h6>Add Work Place</h6>
-                                       </div>
-                                    </li>
-                                    <li class="d-flex mb-4 align-items-center justify-content-between">
-                                       <div class="user-img img-fluid"><img src="images/user/01.jpg" alt="story-img" class="rounded-circle avatar-40"></div>
-                                       <div class="w-100">
-                                          <div class="d-flex justify-content-between">
-                                             <div class="ms-3">
-                                                <h6>Themeforest</h6>
-                                                <p class="mb-0">Web Designer</p>
-                                             </div>
-                                             <div class="edit-relation"><a href="#"><i class="ri-edit-line me-2"></i>Edit</a></div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                    <li class="d-flex mb-4 align-items-center justify-content-between">
-                                       <div class="user-img img-fluid"><img src="images/user/02.jpg" alt="story-img" class="rounded-circle avatar-40"></div>
-                                       <div class="w-100">
-                                          <div class="d-flex flex-wrap justify-content-between">
-                                             <div class="ms-3">
-                                                <h6>iqonicdesign</h6>
-                                                <p class="mb-0">Web Developer</p>
-                                             </div>
-                                             <div class="edit-relation"><a href="#"><i class="ri-edit-line me-2"></i>Edit</a></div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                    <li class="d-flex mb-4 align-items-center justify-content-between">
-                                       <div class="user-img img-fluid"><img src="images/user/03.jpg" alt="story-img" class="rounded-circle avatar-40"></div>
-                                       <div class="w-100">
-                                          <div class="d-flex flex-wrap justify-content-between">
-                                             <div class="ms-3">
-                                                <h6>W3school</h6>
-                                                <p class="mb-0">Designer</p>
-                                             </div>
-                                             <div class="edit-relation"><a href="#"><i class="ri-edit-line me-2"></i>Edit</a></div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                 </ul>
-                                 <h4 class="mb-3">Professional Skills</h4>
-                                 <ul class="suggestions-lists m-0 p-0">
-                                    <li class="d-flex mb-4 align-items-center">
-                                       <div class="user-img img-fluid"><i class="ri-add-fill"></i></div>
-                                       <div class="ms-3">
-                                          <h6>Add Professional Skills</h6>
-                                       </div>
-                                    </li>
-                                 </ul>
-                                 <h4 class="mt-3 mb-3">College</h4>
-                                 <ul class="suggestions-lists m-0 p-0">
-                                    <li class="d-flex mb-4 align-items-center">
-                                       <div class="user-img img-fluid"><i class="ri-add-fill"></i></div>
-                                       <div class="ms-3">
-                                          <h6>Add College</h6>
-                                       </div>
-                                    </li>
-                                    <li class="d-flex mb-4 align-items-center">
-                                       <div class="user-img img-fluid"><img src="images/user/01.jpg" alt="story-img" class="rounded-circle avatar-40"></div>
-                                       <div class="w-100">
-                                          <div class="d-flex flex-wrap justify-content-between">
-                                             <div class="ms-3">
-                                                <h6>Lorem ipsum</h6>
-                                                <p class="mb-0">USA</p>
-                                             </div>
-                                             <div class="edit-relation"><a href="#"><i class="ri-edit-line me-2"></i>Edit</a></div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                 </ul>
-                              </div>
-                              <div class="tab-pane fade" id="v-pills-lived-tab" role="tabpanel" aria-labelledby="v-pills-lived-tab">
-                                 <h4 class="mb-3">Current City and Hometown</h4>
-                                 <ul class="suggestions-lists m-0 p-0">
-                                    <li class="d-flex mb-4 align-items-center justify-content-between">
-                                       <div class="user-img img-fluid"><img src="images/user/01.jpg" alt="story-img" class="rounded-circle avatar-40"></div>
-                                       <div class="w-100">
-                                          <div class="d-flex flex-wrap justify-content-between">
-                                             <div class="ms-3">
-                                                <h6>Georgia</h6>
-                                                <p class="mb-0">Georgia State</p>
-                                             </div>
-                                             <div class="edit-relation"><a href="#"><i class="ri-edit-line me-2"></i>Edit</a></div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                    <li class="d-flex mb-4 align-items-center justify-content-between">
-                                       <div class="user-img img-fluid"><img src="images/user/02.jpg" alt="story-img" class="rounded-circle avatar-40"></div>
-                                       <div class="w-100">
-                                          <div class="d-flex flex-wrap justify-content-between">
-                                             <div class="ms-3">
-                                                <h6>Atlanta</h6>
-                                                <p class="mb-0">Atlanta City</p>
-                                             </div>
-                                             <div class="edit-relation"><a href="#"><i class="ri-edit-line me-2"></i>Edit</a></div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                 </ul>
-                                 <h4 class="mt-3 mb-3">Other Places Lived</h4>
-                                 <ul class="suggestions-lists m-0 p-0">
-                                    <li class="d-flex mb-4 align-items-center">
-                                       <div class="user-img img-fluid"><i class="ri-add-fill"></i></div>
-                                       <div class="ms-3">
-                                          <h6>Add Place</h6>
-                                       </div>
-                                    </li>
-                                 </ul>
-                              </div>
-                              <div class="tab-pane fade" id="v-pills-details-tab" role="tabpanel" aria-labelledby="v-pills-details-tab">
-                                 <h4 class="mb-3">About You</h4>
-                                 <p>Hi, I’m Bni, I’m 26 and I work as a Web Designer for the iqonicdesign.</p>
-                                 <h4 class="mt-3 mb-3">Other Name</h4>
-                                 <p>Bini Rock</p>
-                                 <h4 class="mt-3 mb-3">Favorite Quotes</h4>
-                                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div class="tab-pane fade" id="friends" role="tabpanel">
-               <div class="card">
-                  <div class="card-body">
-                     <h2>Friends</h2>
-                     <div class="friend-list-tab mt-2">
-                        <ul class="nav nav-pills d-flex align-items-center justify-content-left friend-list-items p-0 mb-2">
-                           <li>
-                              <a class="nav-link active" data-bs-toggle="pill" href="#pill-all-friends" data-bs-target="#all-feinds">All Friends</a>
-                           </li>
-                           <li>
-                              <a class="nav-link" data-bs-toggle="pill" href="#pill-recently-add" data-bs-target="#recently-add">Recently Added</a>
-                           </li>
-                           <li>
-                              <a class="nav-link" data-bs-toggle="pill" href="#pill-closefriends" data-bs-target="#closefriends"> Close friends</a>
-                           </li>
-                           <li>
-                              <a class="nav-link" data-bs-toggle="pill" href="#pill-home" data-bs-target="#home-town"> Home/Town</a>
-                           </li>
-                           <li>
-                              <a class="nav-link" data-bs-toggle="pill" href="#pill-following" data-bs-target="#following">Following</a>
-                           </li>
-                        </ul>
-                        <div class="tab-content">
-                           <div class="tab-pane fade active show" id="all-friends" role="tabpanel">
-                              <div class="card-body p-0">
-                                 <div class="row">
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/05.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Petey Cruiser</h5>
-                                                   <p class="mb-0">15  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton01" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton01">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/06.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Anna Sthesia</h5>
-                                                   <p class="mb-0">50  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton02" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton02">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/07.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Paul Molive</h5>
-                                                   <p class="mb-0">10  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton03" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton03">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/08.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Gail Forcewind</h5>
-                                                   <p class="mb-0">20  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton04" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton04">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/09.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Paige Turner</h5>
-                                                   <p class="mb-0">12  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton05" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton05">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/10.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>b Frapples</h5>
-                                                   <p class="mb-0">6  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton06" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton06">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/13.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Walter Melon</h5>
-                                                   <p class="mb-0">30  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton07" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton07">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/14.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Barb Ackue</h5>
-                                                   <p class="mb-0">14  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton08" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton08">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/15.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Buck Kinnear</h5>
-                                                   <p class="mb-0">16  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton09" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton09">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/16.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Ira Membrit</h5>
-                                                   <p class="mb-0">22  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton10" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton10">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/17.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Shonda Leer</h5>
-                                                   <p class="mb-0">10  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton11" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton11">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/18.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>ock Lee</h5>
-                                                   <p class="mb-0">18  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton12" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton12">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/19.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Maya Didas</h5>
-                                                   <p class="mb-0">40  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton13" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton13">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/05.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Rick O'Shea</h5>
-                                                   <p class="mb-0">50  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton14" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton14">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/06.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Pete Sariya</h5>
-                                                   <p class="mb-0">5  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton15" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton15">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/07.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Monty Carlo</h5>
-                                                   <p class="mb-0">2  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton16" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton16">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/08.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Sal Monella</h5>
-                                                   <p class="mb-0">0  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton17" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton17">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/09.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Sue Vaneer</h5>
-                                                   <p class="mb-0">25  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton18" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton18">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/10.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Cliff Hanger</h5>
-                                                   <p class="mb-0">18  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton19" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton19">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/05.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Barb Dwyer</h5>
-                                                   <p class="mb-0">23  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton20" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton20">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/06.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Terry Aki</h5>
-                                                   <p class="mb-0">8  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton21" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton21">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/13.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Cory Ander</h5>
-                                                   <p class="mb-0">7  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton22" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton22">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/14.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Robin Banks</h5>
-                                                   <p class="mb-0">14  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton23" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton23">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/15.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Jimmy Changa</h5>
-                                                   <p class="mb-0">10  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton24" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton24">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/16.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Barry Wine</h5>
-                                                   <p class="mb-0">18  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton25" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton25">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/17.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Poppa Cherry</h5>
-                                                   <p class="mb-0">16  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton26" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton26">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/18.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Zack Lee</h5>
-                                                   <p class="mb-0">33  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton27" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton27">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/19.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Don Stairs</h5>
-                                                   <p class="mb-0">15  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton28" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton28">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/05.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Peter Pants</h5>
-                                                   <p class="mb-0">12  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton29" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton29">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/06.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Hal Appeno </h5>
-                                                   <p class="mb-0">13  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton30" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton30">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="tab-pane fade" id="recently-add" role="tabpanel">
-                              <div class="card-body p-0">
-                                 <div class="row">
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/07.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Otto Matic</h5>
-                                                   <p class="mb-0">4  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton31" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton31">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/08.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Moe Fugga</h5>
-                                                   <p class="mb-0">16  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton32" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton32">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/09.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Tom Foolery</h5>
-                                                   <p class="mb-0">14  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton33" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton33">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/10.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Bud Wiser</h5>
-                                                   <p class="mb-0">16  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton34" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton34">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/15.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Polly Tech</h5>
-                                                   <p class="mb-0">10  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton35" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton35">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/16.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Holly Graham</h5>
-                                                   <p class="mb-0">8  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton36" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton36">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/17.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Tara Zona</h5>
-                                                   <p class="mb-0">5  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton37" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton37">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/18.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Barry Cade</h5>
-                                                   <p class="mb-0">20  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton38" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton38">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="tab-pane fade" id="closefriends" role="tabpanel">
-                              <div class="card-body p-0">
-                                 <div class="row">
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/19.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Bud Wiser</h5>
-                                                   <p class="mb-0">32  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton39" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton39">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/05.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Otto Matic</h5>
-                                                   <p class="mb-0">9  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton40" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton40">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/06.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Peter Pants</h5>
-                                                   <p class="mb-0">2  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton41" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton41">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/07.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Zack Lee</h5>
-                                                   <p class="mb-0">15  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton42" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton42">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/08.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Barry Wine</h5>
-                                                   <p class="mb-0">36  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton43" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton43">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/09.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Robin Banks</h5>
-                                                   <p class="mb-0">22  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton44" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton44">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/10.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Cory Ander</h5>
-                                                   <p class="mb-0">18  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton45" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton45">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/15.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Moe Fugga</h5>
-                                                   <p class="mb-0">12  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton46" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton46">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/16.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Polly Tech</h5>
-                                                   <p class="mb-0">30  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton47" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton47">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/17.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Hal Appeno</h5>
-                                                   <p class="mb-0">25  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton48" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton48">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="tab-pane fade" id="home-town" role="tabpanel">
-                              <div class="card-body p-0">
-                                 <div class="row">
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/18.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Paul Molive</h5>
-                                                   <p class="mb-0">14  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton49" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton49">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/19.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Paige Turner</h5>
-                                                   <p class="mb-0">8  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton50" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton50">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/05.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Barb Ackue</h5>
-                                                   <p class="mb-0">23  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton51" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton51">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/06.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Ira Membrit</h5>
-                                                   <p class="mb-0">16  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton52" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton52">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/07.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Maya Didas</h5>
-                                                   <p class="mb-0">12  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton53" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton53">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="tab-pane fade" id="following" role="tabpanel">
-                              <div class="card-body p-0">
-                                 <div class="row">
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/05.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Maya Didas</h5>
-                                                   <p class="mb-0">20  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton54" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton54">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/06.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Monty Carlo</h5>
-                                                   <p class="mb-0">3  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton55" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton55">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/07.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Cliff Hanger</h5>
-                                                   <p class="mb-0">20  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton56" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton56">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/08.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>b Ackue</h5>
-                                                   <p class="mb-0">12  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton57" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton57">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/09.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Bob Frapples</h5>
-                                                   <p class="mb-0">12  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton58" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton58">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/10.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Anna Mull</h5>
-                                                   <p class="mb-0">6  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton59" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton59">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/15.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>ry Wine</h5>
-                                                   <p class="mb-0">15  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton60" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton60">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/16.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Don Stairs</h5>
-                                                   <p class="mb-0">12  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton61" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton61">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/17.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Peter Pants</h5>
-                                                   <p class="mb-0">8  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton62" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton62">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/18.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Polly Tech</h5>
-                                                   <p class="mb-0">18  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton63" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton63">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/19.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Tara Zona</h5>
-                                                   <p class="mb-0">30  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton64" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton64">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/05.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Arty Ficial</h5>
-                                                   <p class="mb-0">15  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton65" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton65">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/06.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Bill Emia</h5>
-                                                   <p class="mb-0">25  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton66" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton66">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/07.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Bill Yerds</h5>
-                                                   <p class="mb-0">9  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton67" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton67">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 mb-3">
-                                       <div class="iq-friendlist-block">
-                                          <div class="d-flex align-items-center justify-content-between">
-                                             <div class="d-flex align-items-center">
-                                                <a href="#">
-                                                <img src="images/user/08.jpg" alt="profile-img" class="img-fluid">
-                                                </a>
-                                                <div class="friend-info ms-3">
-                                                   <h5>Matt Innae</h5>
-                                                   <p class="mb-0">19  friends</p>
-                                                </div>
-                                             </div>
-                                             <div class="card-header-toolbar d-flex align-items-center">
-                                                <div class="dropdown">
-                                                   <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton68" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton68">
-                                                      <a class="dropdown-item" href="#">Get Notification</a>
-                                                      <a class="dropdown-item" href="#">Close Friend</a>
-                                                      <a class="dropdown-item" href="#">Unfollow</a>
-                                                      <a class="dropdown-item" href="#">Unfriend</a>
-                                                      <a class="dropdown-item" href="#">Block</a>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div class="tab-pane fade" id="photos" role="tabpanel">
-               <div class="card">
-                  <div class="card-body">
-                     <h2>Photos</h2>
-                     <div class="friend-list-tab mt-2">
-                        <ul class="nav nav-pills d-flex align-items-center justify-content-left friend-list-items p-0 mb-2">
-                           <li>
-                              <a class="nav-link active" data-bs-toggle="pill" href="#pill-photosofyou" data-bs-target="#photosofyou">Photos of You</a>
-                           </li>
-                           <li>
-                              <a class="nav-link" data-bs-toggle="pill" href="#pill-your-photos" data-bs-target="#your-photos">Your Photos</a>
-                           </li>
-                        </ul>
-                        <div class="tab-content">
-                           <div class="tab-pane fade active show" id="photosofyou" role="tabpanel">
-                              <div class="card-body p-0">
-                                 <div class="d-grid gap-2 d-grid-template-1fr-13">
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/51.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/52.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/53.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/54.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/55.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/56.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/57.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/58.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/59.jpg" class="img-fluid rounded" alt="image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/60.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/61.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/62.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/63.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/64.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/65.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/51.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/52.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/53.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/54.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/55.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/56.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/57.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/58.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/59.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="tab-pane fade" id="your-photos" role="tabpanel">
-                              <div class="card-body p-0">
-                                 <div class="d-grid gap-2 d-grid-template-1fr-13 ">
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/51.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/52.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/53.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/54.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/55.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/56.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/57.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/58.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/59.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                    <div class="">
-                                       <div class="user-images position-relative overflow-hidden">
-                                          <a href="#">
-                                          <img src="images/page-img/60.jpg" class="img-fluid rounded" alt="Responsive image">
-                                          </a>
-                                          <div class="image-hover-data">
-                                             <div class="product-elements-icon">
-                                                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                                   <li><a href="#" class="pe-3 text-white"> 60 <i class="ri-thumb-up-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 30 <i class="ri-chat-3-line"></i> </a></li>
-                                                   <li><a href="#" class="pe-3 text-white"> 10 <i class="ri-share-forward-line"></i> </a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                          <a href="#" class="image-edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
-                                       </div>
-                                    </div>
-                                 </div>
+                                 <div id="posts-container" style=" display: flex; flex-direction:column"></div>
                               </div>
                            </div>
                         </div>
@@ -4072,24 +229,801 @@
                </div>
             </div>
          </div>
-      </div>
-      <div class="col-sm-12 text-center">
-         <img src="images/page-img/page-load-loader.gif" alt="loader" style="height: 100px;">
       </div>
    </div>
-</div>
+   </div>
+
+   <!-- Button trigger modal -->
+   <button type="button" id="modalButton" style="display: none;" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+      Launch demo modal
+   </button>
+
+   <!-- Modal -->
+   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">Edit Image</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+            </div>
+            <div class="modal-body">
+               <div>
+                  <img id="imagePreview" src="" alt="Uploaded Image" style="max-width: 100%; display: none;">
+               </div>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               <button type="button" class="btn btn-primary" id="saveImage">Save changes</button>
+            </div>
+         </div>
       </div>
-    </div>
-    <script src="js/slider.js"></script>
-    <!-- masonry JavaScript --> 
-    <script src="js/masonry.pkgd.min.js"></script>
-    <!-- SweetAlert JavaScript -->
-    <script src="js/enchanter.js"></script>
-    <!-- SweetAlert JavaScript -->
-    <script src="js/sweetalert.js"></script>
-    <!-- app JavaScript -->
-    <script src="js/charts/weather-chart.js"></script>
-    <script src="js/app.js"></script>
-    <script src="vendor/vanillajs-datepicker/dist/js/datepicker.min.js"></script>
-    <script src="js/lottie.js"></script>
-    </body>
+   </div>
+
+
+   <!-- <div class=" col-sm-12 text-center">
+                                    <img src="images/page-img/page-load-loader.gif" alt="loader" style="height: 100px;">
+                                 </div> -->
+
+   <script>
+      // Phóng to và chỉnh sửa ảnh đại diện
+
+      // const avatarMenu = document.getElementById('avatar-menu');
+      const overlay = document.getElementById('avatar-overlay');
+      const overlayAvatar = document.getElementById('overlay-avatar');
+      const viewAvatarBtn = document.getElementById('view-avatar');
+      const changeAvatarBtn = document.getElementById('change-avatar');
+      const avatarInput = document.getElementById('avatar-input');
+      const coverEditButton = document.getElementById('view-avatar');
+      // Khi click vào ảnh đại diện
+      // avatar.addEventListener('click', (event) => {
+      //    // Hiển thị menu
+      //    const avatarRect = avatar.getBoundingClientRect(); // Lấy vị trí ảnh đại diện
+      //    avatarMenu.style.top = `${avatarRect.bottom + window.scrollY}px`; // Đặt vị trí menu ngay dưới ảnh
+      //    avatarMenu.style.left = `${avatarRect.left + avatarRect.width / 2}px`; // Căn giữa menu so với ảnh
+      //    avatarMenu.style.transform = 'translateX(-50%)';
+      //    avatarMenu.style.display = 'block';
+      //    event.stopPropagation(); // Ngăn sự kiện lan ra ngoài
+      // });
+
+      // Đóng menu nếu click bên ngoài
+      // document.addEventListener('click', () => {
+      //    avatarMenu.style.display = 'none'; // Ẩn menu
+      // });
+
+      // Xem ảnh đại diện
+      // viewAvatarBtn.addEventListener('click', (event) => {
+      //    avatarMenu.style.display = 'none'; // Ẩn menu
+      //    overlay.classList.add('active'); // Hiển thị overlay
+      //    event.stopPropagation();
+      // });
+
+      // Đóng overlay khi click ra ngoài
+      // overlay.addEventListener('click', () => {
+      //    overlay.classList.remove('active'); // Ẩn overlay
+      // });
+
+      // Chọn ảnh đại diện mới
+      // changeAvatarBtn.addEventListener('click', (event) => {
+      //    avatarMenu.style.display = 'none'; // Ẩn menu
+      //    avatarInput.click(); // Hiển thị hộp thoại chọn tệp
+      //    event.stopPropagation();
+      // });
+
+      // Thay đổi ảnh đại diện và đồng bộ overlay
+      // avatarInput.addEventListener('change', (event) => {
+      //    const file = event.target.files[0];
+      //    if (file) {
+      //       const reader = new FileReader();
+      //       reader.onload = (e) => {
+      //          avatar.src = e.target.result; // Cập nhật ảnh đại diện
+      //          overlayAvatar.src = e.target.result; // Cập nhật ảnh trong overlay
+      //       };
+      //       reader.readAsDataURL(file);
+      //    }
+      // });
+
+
+      // Chỉnh sửa ảnh bìa      
+      const coverEditBtn = document.getElementById('cover-edit-btn');
+      const coverInput = document.getElementById('cover-input');
+      // Khi click vào nút "Chỉnh sửa ảnh bìa"
+      coverEditBtn.addEventListener('click', () => {
+         coverInput.click(); // Hiển thị hộp thoại chọn tệp
+         modalButton.click()
+      });
+
+      coverInput.addEventListener('change', function() {
+         const file = event.target.files[0];
+         if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+               // Set the image source for preview
+               const image = document.getElementById('imagePreview');
+               image.src = e.target.result;
+               image.style.display = 'block'; // Show the image preview
+               image.onload = function() {
+
+                  // Destroy any existing cropper instance if present
+                  if (cropper) {
+                     cropper.destroy();
+                     cropper = null; // Reset cropper variable
+                  }
+
+                  // Initialize the cropper on the uploaded image
+                  cropper = new Cropper(image, {
+                     aspectRatio: 16 / 9, // Optional: Set aspect ratio, can be removed or modified
+                     movable: true,
+                     zoomable: true,
+                     scalable: true,
+                     rotatable: true,
+                     ready() {
+                        console.log('Cropper ready!');
+                     }
+                  });
+               };
+            };
+            reader.readAsDataURL(file);
+         }
+
+         // Handle Save changes button click
+         document.getElementById('saveImage').addEventListener('click', function() {
+            if (cropper) {
+               // Get the cropped image data
+               const canvas = cropper.getCroppedCanvas();
+
+               // Convert the canvas to a Base64 string
+               const croppedImageUrl = canvas.toDataURL('image/png'); // You can adjust the image format here
+
+               // Convert Base64 to Blob
+               function base64ToBlob(base64, mimeType) {
+                  const byteString = atob(base64.split(',')[1]);
+                  const arrayBuffer = new ArrayBuffer(byteString.length);
+                  const uint8Array = new Uint8Array(arrayBuffer);
+                  for (let i = 0; i < byteString.length; i++) {
+                     uint8Array[i] = byteString.charCodeAt(i);
+                  }
+                  return new Blob([arrayBuffer], {
+                     type: mimeType
+                  });
+               }
+
+               const croppedImageBlob = base64ToBlob(croppedImageUrl, 'image/png');
+
+               // Append the blob to FormData
+               const formData = new FormData();
+               formData.append('file', croppedImageBlob, 'cover-picture.png'); // Adjust filename as needed
+               formData.append('useCase', 2);
+               // Send the FormData to the server
+               fetch('http://localhost:3000/user-images', {
+                     method: 'POST',
+                     body: formData,
+                     credentials: 'include',
+                  })
+                  .then((response) => response.json())
+                  .then((data) => {
+                     console.log('Image uploaded:', data);
+                     formChangeCover = {
+                        "coverPic": data.path,
+                     }
+                     // Optionally close the modal and update the profile picture
+                     modalButton.click();
+                     // ==================================
+                     fetch('http://localhost:3000/users', {
+                           method: 'PATCH',
+                           headers: {
+                              'Content-Type': 'application/json',
+                           },
+                           body: JSON.stringify(formChangeCover),
+                           credentials: 'include',
+                        })
+                        .then((response) => response.json())
+                        .then((data) => {
+                           console.log('Setted image successfully: ', data);
+                           const coverImage = document.getElementById('profile-cover');
+                           // Set the background image using the path from the server response (data.path)
+                           coverImage.style.backgroundImage = `url(http://localhost:3000${data.coverPic})`;
+
+                           // // Optionally, you can add other background properties if needed
+                           coverImage.style.backgroundSize = 'cover'; // Ensures the image covers the entire element
+                           coverImage.style.backgroundPosition = 'center'; // Centers the image
+                           coverImage.style.backgroundRepeat = 'no-repeat'; // Prevents repetition of the background
+                        })
+                        .catch((error) => {
+                           console.error('Error setting image:', error);
+                        });
+                  })
+                  .catch((error) => {
+                     console.error('Error uploading image:', error);
+                  });
+            } else {
+               console.log('No image cropped yet.');
+            }
+         });
+
+      });
+   </script>
+   <script src="js/slider.js"></script>
+   <!-- masonry JavaScript -->
+   <script src="js/masonry.pkgd.min.js"></script>
+   <!-- SweetAlert JavaScript -->
+   <script src="js/enchanter.js"></script>
+   <!-- SweetAlert JavaScript -->
+   <script src="js/sweetalert.js"></script>
+   <!-- app JavaScript -->
+   <script src="js/charts/weather-chart.js"></script>
+   <script src="js/app.js"></script>
+   <script src="vendor/vanillajs-datepicker/dist/js/datepicker.min.js"></script>
+   <script src="js/lottie.js"></script>
+   <script>
+      document.addEventListener('DOMContentLoaded', function() {
+         const avatar = document.getElementById('profile-avatar');
+         const avatarMenu = document.getElementById('avatar-menu');
+         const coverImage = document.getElementById('cover-image');
+
+
+
+         avatar.addEventListener('click', () => {
+            console.log("click");
+            avatarMenu.style.display = avatarMenu.style.display === 'block' ? 'none' : 'block';
+         });
+
+         fetchAndRenderPosts();
+
+         // Fetch both user posts and user details
+         function fetchAndRenderPosts() {
+            Promise.all([
+                  fetch('http://localhost:3000/posts/user', {
+                     method: 'GET',
+                     credentials: 'include',
+                  }),
+                  fetch('http://localhost:3000/users/details', {
+                     method: 'GET',
+                     credentials: 'include',
+                  })
+               ])
+               .then(responses => Promise.all(responses.map(response => {
+                  if (!response.ok) {
+                     throw new Error(`HTTP error! Status: ${response.status}`);
+                  }
+                  return response.json();
+               })))
+               .then(([postsData, userDetailsData]) => {
+                  console.log('User post response:', postsData);
+                  console.log('User details response:', userDetailsData);
+
+                  avatar.src = "http://localhost:3000" + userDetailsData.profilePic;
+                  const userName = document.getElementById('profile-name');
+                  const coverImage = document.getElementById('profile-cover');
+                  const cardUserName = document.getElementById('profile-card-name');
+                  userName.innerHTML = userDetailsData.username;
+                  cardUserName.innerHTML = userDetailsData.username;
+
+                  // Set the background image using the path from the server response (data.path)
+                  coverImage.style.backgroundImage = `url(http://localhost:3000${userDetailsData.coverPic})`;
+                  // // Optionally, you can add other background properties if needed
+                  coverImage.style.backgroundSize = 'cover'; // Ensures the image covers the entire element
+                  coverImage.style.backgroundPosition = 'center'; // Centers the image
+                  coverImage.style.backgroundRepeat = 'no-repeat'; // Prevents repetition of the background
+                  const combinedData = {
+                     posts: postsData,
+                     userDetails: userDetailsData
+                  };
+
+                  renderPosts(combinedData);
+               })
+               .catch(error => {
+                  console.error('Error in fetching posts or user details:', error);
+               });
+         }
+
+         function renderPosts(combinedData) {
+            const container = document.getElementById('posts-container');
+            container.innerHTML = '';
+            const {
+               posts,
+               userDetails
+            } = combinedData;
+
+            if (!Array.isArray(posts.posts) || posts.posts.length === 0) return;
+
+            posts.posts.forEach(post => {
+               const images = post.media || [];
+               let postHTML = `
+            <div class="card card-block card-stretch card-height">
+               <div class="card-body">
+                  <div class="user-post-data">
+                     <div class="d-flex justify-content-between">
+                        <div class="me-3">
+                           <img class="rounded-circle img-fluid" alt="User avatar">
+                        </div>
+                        <div class="w-100">
+                           <div class="d-flex justify-content-between">
+                              <div>
+                                 <h5 class="mb-0 d-inline-block">${userDetails.username}</h5>
+                                 <span class="mb-0 d-inline-block">đã thêm bài viết mới</span>
+                                 <p class="mb-0" style="font-weight: 600;color: coral;">BOB</p>
+                              </div>
+                              <div class="container-right d-flex">
+                                 <p class="mb-0 text-primary" style="margin-right: 10px">${new Date(post.createdAt).toLocaleDateString()}</p>
+                                 <div class="card-post-toolbar">
+                                    <div class="dropdown">
+                                       <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                                          <i class="ri-more-fill"></i>
+                                       </span>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="mt-3">
+                        <p>${post.content}</p>
+                    </div>
+                    <div class="user-post">
+                        <div id="carouselExampleControls${post.postID}" class="carousel slide" data-ride="carousel"  data-interval="false" data-wrap="false">
+                        <div class="carousel-inner">
+                        `;
+
+               images.forEach((image, index) => {
+                  // Check if it's the first image and add the 'active' class only for the first one
+                  const activeClass = index === 0 ? 'active' : '';
+
+                  postHTML += `
+        <div class="carousel-item ${activeClass}">
+        <a href="#" class="open-lightbox" data-image="http://localhost:3000${image}">
+            <img class="d-block w-100" src="http://localhost:3000${image}" alt="Post image">
+        </div>
+        </a>
+    `;
+               });
+
+
+               postHTML += `
+                        </div>
+                     <a class="carousel-control-prev" href="#carouselExampleControls${post.postID}" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                     </a>
+                     <a class="carousel-control-next" href="#carouselExampleControls${post.postID}" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                     </a>
+                <div class="carousel-indicators">               
+               `;
+
+               images.forEach((_, index) => {
+                  const activeClass = index === 0 ? 'active' : '';
+                  postHTML += `
+            <button type="button" data-bs-target="#carouselExampleControls${post.postID}" data-bs-slide-to="${index}" class="${activeClass}" aria-current="${activeClass ? 'true' : 'false'}"></button>
+         `;
+               });
+
+               postHTML += `
+         </div> <!-- End of indicators -->
+      </div>
+      </div>
+      <hr>
+      <div class="d-flex justify-content-between align-items-center flex-wrap">
+                           <div class="like-block position-relative d-flex align-items-center justify-content-between">
+                              <div class="d-flex align-items-center">
+                                 <div class="like-data">
+                                    <div class="dropdown">
+                                       <!-- <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                                           <img src="images/icon/01.png" class="img-fluid" alt="">
+                                           </span>
+                                           <div class="dropdown-menu py-2">
+                                              <a class="ms-2 me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Like"><img src="images/icon/01.png" class="img-fluid" alt=""></a>
+                                              <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Love"><img src="images/icon/02.png" class="img-fluid" alt=""></a>
+                                              <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Happy"><img src="images/icon/03.png" class="img-fluid" alt=""></a>
+                                              <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="HaHa"><img src="images/icon/04.png" class="img-fluid" alt=""></a>
+                                              <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Think"><img src="images/icon/05.png" class="img-fluid" alt=""></a>
+                                              <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Sade" ><img src="images/icon/06.png" class="img-fluid" alt=""></a>
+                                              <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Lovely"><img src="images/icon/07.png" class="img-fluid" alt=""></a>
+                                           </div> -->
+                                       <div class="vote-container" style="padding:3px; border-radius: 15px; width: 80px">
+                                          <!-- Nút Upvote -->
+                                          <button class="vote-button upvote" id="upvoteButton">
+                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                <path d="M12 4l-8 8h16z"></path>
+                                             </svg>
+                                          </button>
+
+                                          <!-- Số vote -->
+                                          <span class="vote-count" id="voteCount">0</span>
+
+                                          <!-- Nút Downvote -->
+                                          <!-- <button class="vote-button downvote" id="downvoteButton">
+                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                <path d="M12 20l8-8H4z"></path>
+                                             </svg>
+                                          </button> -->
+                                       </div>
+
+
+                                    </div>
+                                 </div>
+                                 <div class="total-like-block ms-2 me-3">
+                                    <div class="dropdown">
+                                       <!-- <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                                           140 Thích
+                                           </span> -->
+                                       <!-- <div class="dropdown-menu">
+                                              <a class="dropdown-item" href="#">Max Emum</a>
+                                              <a class="dropdown-item" href="#">Bill Yerds</a>
+                                              <a class="dropdown-item" href="#">Hap E. Birthday</a>
+                                              <a class="dropdown-item" href="#">Tara Misu</a>
+                                              <a class="dropdown-item" href="#">Midge Itz</a>
+                                              <a class="dropdown-item" href="#">Sal Vidge</a>
+                                              <a class="dropdown-item" href="#">Other</a>
+                                           </div> -->
+                                    </div>
+                                 </div>
+                              </div>
+
+                           </div>
+                           <!-- <div class="share-block d-flex align-items-center feather-icon mt-2 mt-md-0">
+                                  <a href="javascript:void();" data-bs-toggle="offcanvas" data-bs-target="#share-btn" aria-controls="share-btn"><i class="ri-share-line"></i>
+                                  <span class="ms-1">99 Chia sẻ</span></a>                           
+                               </div> -->
+                           <div class="total-comment-block">
+                              <div class="dropdown">
+                                 <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                                    20 Bình Luận
+                                 </span>
+                                 <!-- <div class="dropdown-menu">
+                                           <a class="dropdown-item" href="#">Max Emum</a>
+                                           <a class="dropdown-item" href="#">Bill Yerds</a>
+                                           <a class="dropdown-item" href="#">Hap E. Birthday</a>
+                                           <a class="dropdown-item" href="#">Tara Misu</a>
+                                           <a class="dropdown-item" href="#">Midge Itz</a>
+                                           <a class="dropdown-item" href="#">Sal Vidge</a>
+                                           <a class="dropdown-item" href="#">Other</a>
+                                        </div> -->
+                              </div>
+                           </div>
+                        </div>
+      </div>
+      </div>
+      
+      </div>
+      `;
+
+               container.innerHTML += postHTML;
+            });
+
+            // Add zoom functionality
+            const lightboxLinks = document.querySelectorAll('.open-lightbox');
+            const modalImage = document.getElementById('modalImage');
+            const mediaModal = document.getElementById('mediaModal');
+            const closeModal = document.getElementById('closeModal');
+
+            lightboxLinks.forEach(link => {
+               link.addEventListener('click', function(event) {
+                  event.preventDefault();
+                  const imageSrc = this.getAttribute('data-image');
+                  modalImage.src = imageSrc;
+                  mediaModal.style.display = 'flex';
+               });
+            });
+
+            // Close modal
+            closeModal.addEventListener('click', function() {
+               mediaModal.style.display = 'none';
+               modalImage.src = '';
+            });
+
+            // Close modal when clicking outside modal content
+            mediaModal.addEventListener('click', function(event) {
+               if (event.target === mediaModal) {
+                  mediaModal.style.display = 'none';
+                  modalImage.src = '';
+               }
+            });
+         }
+      });
+
+      const mediaInput = document.getElementById('media');
+      const modalButton = document.getElementById('modalButton');
+      document.getElementById('uploadProfileButton').addEventListener('click', function() {
+         mediaInput.click();
+         modalButton.click()
+      });
+      let cropper;
+      mediaInput.addEventListener('change', function() {
+         const file = event.target.files[0];
+         if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+               // Set the image source for preview
+               const image = document.getElementById('imagePreview');
+               image.src = e.target.result;
+               image.style.display = 'block'; // Show the image preview
+               image.onload = function() {
+
+                  // Destroy any existing cropper instance if present
+                  if (cropper) {
+                     cropper.destroy();
+                     cropper = null; // Reset cropper variable
+                  }
+
+                  // Initialize the cropper on the uploaded image
+                  cropper = new Cropper(image, {
+                     aspectRatio: 1, // Optional: Set aspect ratio, can be removed or modified
+                     movable: true,
+                     zoomable: true,
+                     scalable: true,
+                     rotatable: true,
+                     ready() {
+                        console.log('Cropper ready!');
+                     }
+                  });
+               };
+            };
+            reader.readAsDataURL(file);
+         }
+
+         // Handle Save changes button click
+         document.getElementById('saveImage').addEventListener('click', function() {
+            if (cropper) {
+               // Get the cropped image data
+               const canvas = cropper.getCroppedCanvas();
+
+               // Convert the canvas to a Base64 string
+               const croppedImageUrl = canvas.toDataURL('image/png'); // You can adjust the image format here
+
+               // Convert Base64 to Blob
+               function base64ToBlob(base64, mimeType) {
+                  const byteString = atob(base64.split(',')[1]);
+                  const arrayBuffer = new ArrayBuffer(byteString.length);
+                  const uint8Array = new Uint8Array(arrayBuffer);
+                  for (let i = 0; i < byteString.length; i++) {
+                     uint8Array[i] = byteString.charCodeAt(i);
+                  }
+                  return new Blob([arrayBuffer], {
+                     type: mimeType
+                  });
+               }
+
+               const croppedImageBlob = base64ToBlob(croppedImageUrl, 'image/png');
+
+               // Append the blob to FormData
+               const formData = new FormData();
+               formData.append('file', croppedImageBlob, 'profile-picture.png'); // Adjust filename as needed
+               formData.append('useCase', 1);
+               // Send the FormData to the server
+               fetch('http://localhost:3000/user-images', {
+                     method: 'POST',
+                     body: formData,
+                     credentials: 'include',
+                  })
+                  .then((response) => response.json())
+                  .then((data) => {
+                     console.log('Image uploaded:', data);
+                     formChangeProfile = {
+                        "profilePic": data.path,
+                     }
+                     // Optionally close the modal and update the profile picture
+                     modalButton.click();
+                     // ==================================
+                     fetch('http://localhost:3000/users', {
+                           method: 'PATCH',
+                           headers: {
+                              'Content-Type': 'application/json',
+                           },
+                           body: JSON.stringify(formChangeProfile),
+                           credentials: 'include',
+                        })
+                        .then((response) => response.json())
+                        .then((data) => {
+                           console.log('Setted image successfully: ', data);
+                           const avatar = document.getElementById('profile-avatar');
+                           avatar.src = "http://localhost:3000" + data.profilePic;
+                        })
+                        .catch((error) => {
+                           console.error('Error setting image:', error);
+                        });
+                  })
+                  .catch((error) => {
+                     console.error('Error uploading image:', error);
+                  });
+            } else {
+               console.log('No image cropped yet.');
+            }
+         });
+
+      });
+   </script>
+
+
+   <!-- Modal Structure -->
+   <div id="mediaModal" class="modal">
+      <span id="closeModal" class="close-button">&times;</span>
+      <img id="modalImage" class="modal-content" />
+      <div class="modal-backdrop"></div>
+   </div>
+
+   <style>
+      .cropper-container {
+         width: 458px;
+         height: 400px;
+      }
+
+      .carousel-indicators-custom {
+         display: flex;
+         justify-content: center;
+         margin-top: 10px;
+      }
+
+      .carousel-item img {
+         height: 650px;
+         /* Set a fixed height */
+         width: auto;
+         /* Let the width adjust automatically */
+         object-fit: cover;
+         /* Ensures the image fills the area while maintaining aspect ratio */
+         border-radius: 10px;
+         /* Optional: for rounded corners */
+      }
+
+
+      .carousel-indicators-custom button {
+         width: 12px;
+         height: 12px;
+         border-radius: 50%;
+         background-color: #ccc;
+         border: none;
+         margin: 0 5px;
+         outline: none;
+         transition: background-color 0.3s ease;
+      }
+
+      .carousel-indicators-custom button.active {
+         background-color: #007bff;
+      }
+
+      .carousel-indicators-custom button:hover {
+         background-color: #0056b3;
+      }
+
+
+      .close-button {
+         position: absolute;
+         z-index: 1;
+         right: 20px;
+         font-size: 40px;
+         color: white;
+      }
+
+      .carousel-item {
+         transition: transform 0.2s ease-in-out;
+         /* Change 0.5s to your desired duration */
+      }
+
+
+      .close-button:hover {
+         cursor: pointer;
+      }
+
+      /* Image grid container */
+      .image-grid {
+         display: grid;
+         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+         /* Ensures up to 5 items per row */
+         gap: 15px;
+         /* Space between images */
+         padding: 10px;
+         justify-content: center;
+         /* Center images in grid */
+      }
+
+      /* Individual image items */
+      .image-item {
+         position: relative;
+         width: 100%;
+      }
+
+      /* Image styling */
+      .post-image {
+         width: 100%;
+         /* Ensures images fill the container */
+         height: auto;
+         /* Maintains aspect ratio */
+         object-fit: cover;
+         /* Ensures proper image cropping */
+         border-radius: 8px;
+         /* Optional: adds rounded corners */
+         transition: transform 0.3s ease-in-out;
+         /* Optional: adds smooth hover effect */
+      }
+
+
+
+      /* .profile-avatar:hover .dropdown-menu {
+         display: block;
+      } */
+
+
+      /* Hover effect for images (optional) */
+      .image-item:hover .post-image {
+         transform: scale(1.05);
+         /* Slight zoom effect on hover */
+      }
+
+
+      /* Style for the modal content */
+      #mediaModal .modal-dialog {
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         height: 100%;
+      }
+
+      /* Dark overlay background when zooming in */
+      #mediaModal .modal-backdrop {
+         background-color: rgba(0, 0, 0, 0.7);
+         /* Adjust opacity for darkness */
+         z-index: -1;
+         /* Make sure the backdrop stays behind the modal */
+      }
+
+      /* Modal image adjustments */
+      #modalImage {
+         width: 100%;
+         /* Fill the width */
+         height: 100%;
+         /* Fill the height */
+         object-fit: contain;
+         /* Preserve aspect ratio and scale to fit within the modal */
+         transition: transform 0.3s ease;
+         /* Smooth zoom transition */
+      }
+
+      /* Close button (X) position */
+
+
+      /* Optional: Zoom effect on hover */
+      #mediaModal .modal-content:hover #modalImage {
+         transform: scale(1.1);
+         /* Slight zoom effect on hover */
+      }
+
+      /* Ensure modal content is centered */
+      #mediaModal .modal-content {
+         position: relative;
+         padding: 0;
+         overflow: hidden;
+         background-color: transparent;
+         /* No background color, just image */
+         border: none;
+      }
+
+      /* Make sure modal dialog doesn't expand too much */
+      #mediaModal .modal-dialog {
+         max-width: 90%;
+         /* Ensure modal doesn't overflow */
+         max-height: 90vh;
+         /* Limit the height to 90% of the viewport height */
+         overflow: hidden;
+      }
+
+      @media (max-width: 630px) {
+         #closeModal {
+            top: 15px;
+            right: 15px;
+         }
+      }
+   </style>
+
+   <!-- Cropper.js CSS -->
+
+   <!-- Cropper.js JS -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+
+
+   <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>

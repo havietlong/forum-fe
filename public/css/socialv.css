@@ -619,6 +619,10 @@ progress {
     height: auto
 }
 
+.avatar-full{
+    max-width: none;
+}
+
 .img-thumbnail {
     padding: .25rem;
     background-color: #f8f9fa;

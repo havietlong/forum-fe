@@ -14,11 +14,12 @@
 
 <!-- Font Awesome -->
 <link rel="stylesheet" href="{{ asset('vendor/@fortawesome/fontawesome-free/css/all.min.css') }}">
-<link rel="stylesheet" href="{{ asset('vendor/line-awesome/dist/font-awesome-line-awesome/css/all.min.css') }}">
+<!-- <link rel="stylesheet" href="{{ asset('vendor/line-awesome/dist/font-awesome-line-awesome/css/all.min.css') }}"> -->
 <link rel="stylesheet" href="{{ asset('vendor/vanillajs-datepicker/dist/css/datepicker.min.css') }}"> 
 <link rel="stylesheet" href="{{ asset('vendor/remixicon/fonts/remixicon.css') }}">
 <link rel="stylesheet" href="{{ asset('vendor/font-awesome-line-awesome/css/all.min.css') }}">
 <link rel="stylesheet" href="{{ asset('vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css') }}">
+
  
 
 
@@ -39,7 +40,7 @@
             <nav class="iq-sidebar-menu">
                <ul id="iq-sidebar-toggle" class="iq-menu">
                   <li class="active">
-                     <a href="/" class=" ">
+                     <a href="/homepage" class=" ">
                         <i class="las la-newspaper"></i><span>Trang chủ</span>
                      </a>
                   </li>
