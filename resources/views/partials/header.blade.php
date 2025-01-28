@@ -1,26 +1,25 @@
-
 <head>
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
    <title>SocialV | Responsive Bootstrap 5 Admin Dashboard Template</title>
 
- 
-<link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" />
 
-<!-- CSS Libraries -->
+   <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" />
 
-<link rel="stylesheet" href="{{ asset('css/libs.min.css') }}">
-<link rel="stylesheet" href="{{ asset('css/socialv.css') }}">
+   <!-- CSS Libraries -->
 
-<!-- Font Awesome -->
-<link rel="stylesheet" href="{{ asset('vendor/@fortawesome/fontawesome-free/css/all.min.css') }}">
-<!-- <link rel="stylesheet" href="{{ asset('vendor/line-awesome/dist/font-awesome-line-awesome/css/all.min.css') }}"> -->
-<link rel="stylesheet" href="{{ asset('vendor/vanillajs-datepicker/dist/css/datepicker.min.css') }}"> 
-<link rel="stylesheet" href="{{ asset('vendor/remixicon/fonts/remixicon.css') }}">
-<link rel="stylesheet" href="{{ asset('vendor/font-awesome-line-awesome/css/all.min.css') }}">
-<link rel="stylesheet" href="{{ asset('vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css') }}">
+   <link rel="stylesheet" href="{{ asset('css/libs.min.css') }}">
+   <link rel="stylesheet" href="{{ asset('css/socialv.css') }}">
 
- 
+   <!-- Font Awesome -->
+   <link rel="stylesheet" href="{{ asset('vendor/@fortawesome/fontawesome-free/css/all.min.css') }}">
+   <!-- <link rel="stylesheet" href="{{ asset('vendor/line-awesome/dist/font-awesome-line-awesome/css/all.min.css') }}"> -->
+   <link rel="stylesheet" href="{{ asset('vendor/vanillajs-datepicker/dist/css/datepicker.min.css') }}">
+   <link rel="stylesheet" href="{{ asset('vendor/remixicon/fonts/remixicon.css') }}">
+   <link rel="stylesheet" href="{{ asset('vendor/font-awesome-line-awesome/css/all.min.css') }}">
+   <link rel="stylesheet" href="{{ asset('vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css') }}">
+
+
 
 
 
@@ -54,7 +53,7 @@
                         <i class="las la-users"></i><span>Diễn đàn</span>
                      </a>
                   </li>
-               
+
                   <li class=" ">
                      <a href="#mailbox" data-bs-toggle="collapse" class="  collapsed" aria-expanded="false">
                         <i class="ri-mail-line"></i><span>Cài đặt</span><i
@@ -69,7 +68,7 @@
                         </li>
                      </ul>
                   </li>
-                 
+
                   <li class="">
                      <a href="#pages" class="  collapsed" data-bs-toggle="collapse" aria-expanded="false"><i
                            class="ri-pages-line"></i><span>Tìm gái gọi</span><i
@@ -88,7 +87,7 @@
                                  <a href="../dashboard/sign-up.html"><i class="ri-login-circle-line"></i>Gái gọi quận
                                     Cầu Giấy</a>
                               </li>
-                           
+
                            </ul>
                         </li>
                         <li class="">
@@ -103,7 +102,7 @@
                               <li class="">
                                  <a href="../dashboard/pages-invoice.html"><i class="ri-question-answer-line"></i>Gái
                                     gọi quận Cầu Giấy</a>
-                                
+
                            </ul>
                         </li>
                      </ul>
@@ -397,14 +396,14 @@
                                  </div>
                               </div>
                               <div class="card-body p-0 ">
-                                 <a href="../app/profile.html" class="iq-sub-card iq-bg-primary-hover">
+                                 <a href="/profile" class="iq-sub-card iq-bg-primary-hover">
                                     <div class="d-flex align-items-center">
                                        <div class="rounded card-icon bg-soft-primary">
                                           <i class="ri-file-user-line"></i>
                                        </div>
                                        <div class="ms-3">
-                                          <h6 class="mb-0 ">My Profile</h6>
-                                          <p class="mb-0 font-size-12">View personal profile details.</p>
+                                          <h6 class="mb-0 ">Trang Cá Nhân</h6>
+                                          <p class="mb-0 font-size-12">Xem bài viết và thông tin cá nhân.</p>
                                        </div>
                                     </div>
                                  </a>
@@ -443,7 +442,7 @@
                                     </div>
                                  </a>
                                  <div class="d-inline-block w-100 text-center p-3">
-                                    <a class="btn btn-primary iq-sign-btn" href="../dashboard/sign-in.html"
+                                    <a class="btn btn-primary iq-sign-btn" id="signOutButton"
                                        role="button">Sign
                                        out<i class="ri-login-box-line ms-2"></i></a>
                                  </div>
@@ -562,20 +561,45 @@
          </div>
       </div>
 
-<script src="js/libs.min.js"></script>
-            <!-- slider JavaScript -->
-            <script src="js/slider.js"></script>
-            <!-- masonry JavaScript -->
-            <script src="js/masonry.pkgd.min.js"></script>
-            <!-- SweetAlert JavaScript -->
-            <script src="js/enchanter.js"></script>
-            <!-- SweetAlert JavaScript -->
-            <script src="js/sweetalert.js"></script>
-            <!-- app JavaScript -->
-            <script src="js/charts/weather-chart.js"></script>
-            <script src="js/app.js"></script>
-            <script src="vendor/vanillajs-datepicker/dist/js/datepicker.min.js"></script>
-            <script src="js/lottie.js"></script>
-
+      <script src="js/libs.min.js"></script>
+      <!-- slider JavaScript -->
+      <script src="js/slider.js"></script>
+      <!-- masonry JavaScript -->
+      <script src="js/masonry.pkgd.min.js"></script>
+      <!-- SweetAlert JavaScript -->
+      <script src="js/enchanter.js"></script>
+      <!-- SweetAlert JavaScript -->
+      <script src="js/sweetalert.js"></script>
+      <!-- app JavaScript -->
+      <script src="js/charts/weather-chart.js"></script>
+      <script src="js/app.js"></script>
+      <script src="vendor/vanillajs-datepicker/dist/js/datepicker.min.js"></script>
+      <script src="js/lottie.js"></script>
+      <script>
+         const signOutButton = document.getElementById('signOutButton');
+         signOutButton.addEventListener('click', function() {
+            window.location.href="/login";
+            fetch('http://localhost:3000/auth/logout', {
+                  method: 'POST',
+                  headers: {
+                     'Content-Type': 'application/json',
+                  },
+                  // body: JSON.stringify(newTopic),
+                  credentials: 'include',
+               })
+               .then((response) => {
+                  response.json();                 
+               })
+               .then((data) => {
+                  if(data){
+                     window.location.href='/login'
+                  }
+               })
+               .catch((error) => {
+                  console.error('Error setting image:', error);
+               });
+            // Close the modal after submission
+         });
+      </script>
 
 </body>

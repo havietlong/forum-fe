@@ -19,9 +19,8 @@
    @include('partials.header')
    <div id="content-page" class="content-page">
       <div class="container">
-         <div class="row">
-            <div class="col-lg-8 row m-0 p-0">
-
+         <div class="row" >
+            <div class="col-sm-10 row m-0 p-0">
                <div class="col-sm-12">
                   <div class="card card-block card-stretch card-height">
                      <div class="card-body">
@@ -249,117 +248,16 @@
                </div>
 
             </div>
-            <div class="col-lg-4">
-               <div class="card">
-                  <div class="card-header d-flex justify-content-between">
-                     <div class="header-title">
-                        <div class="communities-title">COMMUNITIES</div>
-                     </div>
-                  </div>
-                  <div class="card-body">
-                     <ul class="media-story list-inline m-0 p-0">
-                        <!-- <li class="d-flex mb-3 align-items-center">
-                     <i class="ri-add-line"></i>
-                     <div class="stories-data ms-3">
-                        <h5>Tạo bài viết của bạn</h5>
-                   
-                     </div>
-                  </li> -->
-                        <div class="communities-container">
-
-
-                           <!-- Mỗi ô cộng đồng -->
-                           <div class="community-item">
-                              <div class="community-avatar"></div>
-                              <div class="community-info">
-                                 <div class="community-topic">Olboiyo</div>
-                                 <div class="community-name">r/Olboiyo</div>
-                              </div>
-                              <div class="vote-container">
-                                 <button class="vote-button upvote" id="upvoteButton1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                       <path d="M12 4l-8 8h16z"></path>
-                                    </svg>
-                                 </button>
-                                 <span class="vote-count" id="voteCount1">0</span>
-                                 <button class="vote-button downvote" id="downvoteButton1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                       <path d="M12 20l8-8H4z"></path>
-                                    </svg>
-                                 </button>
-                              </div>
-                           </div>
-
-                           <div class="community-item">
-                              <div class="community-avatar"></div>
-                              <div class="community-info">
-                                 <div class="community-topic">Long</div>
-                                 <div class="community-name">r/Long</div>
-                              </div>
-                              <div class="vote-container">
-                                 <button class="vote-button upvote" id="upvoteButton2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                       <path d="M12 4l-8 8h16z"></path>
-                                    </svg>
-                                 </button>
-                                 <span class="vote-count" id="voteCount2">0</span>
-                                 <button class="vote-button downvote" id="downvoteButton2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                       <path d="M12 20l8-8H4z"></path>
-                                    </svg>
-                                 </button>
-                              </div>
-                           </div>
-                           <div class="community-item">
-                              <div class="community-avatar"></div>
-                              <div class="community-info">
-                                 <div class="community-topic">Andree</div>
-                                 <div class="community-name">r/Andree</div>
-                              </div>
-                              <div class="vote-container">
-                                 <button class="vote-button upvote" id="upvoteButton2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                       <path d="M12 4l-8 8h16z"></path>
-                                    </svg>
-                                 </button>
-                                 <span class="vote-count" id="voteCount2">0</span>
-                                 <button class="vote-button downvote" id="downvoteButton2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                       <path d="M12 20l8-8H4z"></path>
-                                    </svg>
-                                 </button>
-                              </div>
-                           </div>
-                           <div class="community-item">
-                              <div class="community-avatar"></div>
-                              <div class="community-info">
-                                 <div class="community-topic">Huệ</div>
-                                 <div class="community-name">r/Huệ</div>
-                              </div>
-                              <div class="vote-container">
-                                 <button class="vote-button upvote" id="upvoteButton2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                       <path d="M12 4l-8 8h16z"></path>
-                                    </svg>
-                                 </button>
-                                 <span class="vote-count" id="voteCount2">0</span>
-                                 <button class="vote-button downvote" id="downvoteButton2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                       <path d="M12 20l8-8H4z"></path>
-                                    </svg>
-                                 </button>
-                              </div>
-                           </div>
-                        </div>
-                     </ul>
-                     <a href="#" class="btn btn-primary d-block mt-3">Xem tất cả</a>
-                  </div>
-               </div>
-
-            </div>
+            
          </div>
       </div>
    </div>
+
+                           
+               </div>
+
+            </div>   
+
    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
    <script>
       document.addEventListener('DOMContentLoaded', () => {

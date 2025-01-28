@@ -1,16 +1,14 @@
-<base href="{{ url('/') }}/">
-<link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" />
-<link rel="stylesheet" href="{{ asset('css/libs.min.css') }}">
-<link rel="stylesheet" href="{{ asset('css/socialv.css?v=4.0.0') }}">
-<link rel="stylesheet" href="{{ asset('vendor/@fortawesome/fontawesome-free/css/all.min.css') }}">
-<link rel="stylesheet" href="{{ asset('vendor/remixicon/fonts/remixicon.css') }}">
-<link rel="stylesheet" href="{{ asset('vendor/vanillajs-datepicker/dist/css/datepicker.min.css') }}">
-<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-<!-- <link rel="stylesheet" href="{{ asset('vendor/font-awesome-line-awesome/css/all.min.css') }}"> -->
-<link rel="stylesheet" href="{{ asset('vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css') }}">
+<link rel="shortcut icon" href="images/favicon.ico" />
+<link rel="stylesheet" href="css/libs.min.css">
+<link rel="stylesheet" href="css/socialv.css?v=4.0.0">
+<link rel="stylesheet" href="vendor/@fortawesome/fontawesome-free/css/all.min.css">
+<link rel="stylesheet" href="vendor/remixicon/fonts/remixicon.css">
+<link rel="stylesheet" href="vendor/vanillajs-datepicker/dist/css/datepicker.min.css">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<!-- <link rel="stylesheet" href="vendor/font-awesome-line-awesome/css/all.min.css"> -->
+<link rel="stylesheet" href="vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
-
 
 <body>
    @include('partials.header')
@@ -33,7 +31,7 @@
                   <!-- Phần thông tin cá nhân -->
                   <div class="profile-info">
                      <div class="avatar-section-container">
-                        <div class="profile-avatar" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div class="profile-avatar" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border-radius: 0px;">
                            <img src="  images/user/long.jpg" alt="Ảnh đại diện" id="profile-avatar">
                         </div>
                         <div id="avatar-menu" class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: fit-content; z-index:10">
@@ -144,8 +142,8 @@
                                  </div>
 
                               </div>
-                              <div class="col-lg-8" id="multiplePosts">
-                                 <div id="yourThoughtsSection" class="card">
+                              <div class="col-lg-8">
+                                 <div id="post-modal-data" class="card">
                                     <div class="card-header d-flex justify-content-between">
                                        <div class="header-title">
                                           <h4 class="card-title">Tạo bài viết</h4>
@@ -188,7 +186,7 @@
                                                 placeholder="Bạn đang nghĩ gì..."
                                                 class="form-control mb-3 rounded"
                                                 id="postContent"
-                                                style="    box-shadow: none;border: none; resize: none; overflow-wrap: break-word; word-break: break-word; width: 100%; padding: 8px; line-height: 1.5; min-height: 48px; overflow-y: auto;"
+                                                style="border: none; resize: none; overflow-wrap: break-word; word-break: break-word; width: 100%; padding: 8px; line-height: 1.5; min-height: 48px; overflow-y: auto;"
                                                 oninput="adjustContentHeight(this);">
                                                 Bạn đang nghĩ gì...
                                              </div>
@@ -385,41 +383,9 @@
    <!-- Modal Structure -->
    <div id="mediaModal" class="modal">
       <span id="closeModal" class="close-button">&times;</span>
-      <div id="modalContent" class="modal-content"></div> <!-- Dynamic content here -->
-      <div id="mediaThumbnails" class="thumbnail-container"></div>
+      <img id="modalImage" class="modal-content" />
       <div class="modal-backdrop"></div>
    </div>
-
-   <style>
-      .thumbnail-container {
-         flex-direction: column;
-         display: flex;
-         justify-content: center;
-         align-items: center;
-         gap: 10px;
-         margin-top: 20px;
-         padding: 10px;
-         overflow-x: auto;
-      }
-
-      .thumbnail-container img,
-      .thumbnail-container video {
-         width: 80px;
-         height: 80px;
-         object-fit: cover;
-         cursor: pointer;
-         border: 2px solid transparent;
-         border-radius: 5px;
-         transition: border-color 0.2s ease-in-out;
-      }
-
-      .thumbnail-container img:hover,
-      .thumbnail-container video:hover {
-         border-color: #007bff;
-         /* Highlighted border */
-      }
-   </style>
-
 
    <div id="mediaModalProfilePost" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); justify-content: center; align-items: center; z-index: 9999;">
       <div id="modalContentProfilePost" style="position: relative; max-width: 90%; max-height: 90%;">
@@ -431,14 +397,10 @@
 
    <!-- Create Topic Modal -->
    <div id="createTopicModal" class="modal">
-      <div class="modal-content" style="text-align:left;width: 70%;height:auto">
+      <div class="modal-content" style="text-align:left">
          <span class="close-button">&times;</span>
          <h2>Tạo diễn đàn mới</h2>
          <hr>
-         <div class="">
-            <i class='bx bx-info-circle'></i> Khi bạn tạo nên diễn đàn mới. Bạn sẽ trở thành admin của diễn đàn đó và quản trị nó.
-         </div>
-         <br>
          <form id="createTopicForm">
             <div class="d-flex">
                <div class="label-left d-flex justifiy-content-center flex-column " style="width: 120px;float:right">
@@ -456,7 +418,7 @@
 
                </div>
                <div class="label-right">
-                  <textarea class="form-control" id="topicDes" rows="3"></textarea>
+                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
 
                </div>
             </div>
@@ -530,49 +492,20 @@
    <!-- <div class=" col-sm-12 text-center">
                                     <img src="images/page-img/page-load-loader.gif" alt="loader" style="height: 100px;">
                                  </div> -->
-   <script src="{{ asset('js/slider.js') }}"></script>
+   <script src="js/slider.js"></script>
    <!-- masonry JavaScript -->
-   <script src="{{ asset('js/masonry.pkgd.min.js') }}"></script>
+   <script src="js/masonry.pkgd.min.js"></script>
    <!-- SweetAlert JavaScript -->
-   <script src="{{ asset('js/enchanter.js') }}"></script>
+   <script src="js/enchanter.js"></script>
    <!-- SweetAlert JavaScript -->
-   <script src="{{ asset('js/sweetalert.js') }}"></script>
+   <script src="js/sweetalert.js"></script>
    <!-- app JavaScript -->
-   <script src="{{ asset('js/charts/weather-chart.js') }}"></script>
-   <script src="{{ asset('js/app.js') }}"></script>
-   <script src="{{ asset('vendor/vanillajs-datepicker/dist/js/datepicker.min.js') }}"></script>
-   <script src="{{ asset('js/lottie.js') }}"></script>
-   <script src="{{ asset('js/cookie-check.js') }}"></script>
-
+   <script src="js/charts/weather-chart.js"></script>
+   <script src="js/app.js"></script>
+   <script src="vendor/vanillajs-datepicker/dist/js/datepicker.min.js"></script>
+   <script src="js/lottie.js"></script>
    <script>
       document.addEventListener('DOMContentLoaded', function() {
-         const path = window.location.pathname; // Get the current path
-         const segments = path.split('/').filter(segment => segment !== '');
-         const multiplePosts = document.getElementById('multiplePosts'); // Target the element
-         const yourThoughtsSection = document.getElementById('yourThoughtsSection')
-
-         function seperatePage() {
-
-            if (path.startsWith("/user/")) {
-               if (yourThoughtsSection) {
-                  yourThoughtsSection.style.display = 'none';
-                  fetchAndRenderPosts({
-                     apiUrl: 'http://localhost:3000/posts/' + segments[3], // Replace with the actual post ID
-                  });
-               }
-            } else if (path.startsWith("/topic/")) {
-
-               if (multiplePosts) {
-                  multiplePosts.style.display = 'none'; // Hide the element
-               }
-
-            } else {
-               fetchAndRenderPosts();
-            }
-         }
-
-         seperatePage();
-
          // Get modal elements
          const createTopicModal = document.getElementById('createTopicModal');
          const closeButton = document.querySelector('.close-button');
@@ -594,19 +527,15 @@
          // Event listener for form submission
          createTopicForm.addEventListener('submit', (e) => {
             e.preventDefault();
-
+            const newTopicForm = new FormData();                  
 
             const topicName = document.getElementById('topicName').value;
             const topicDes = document.getElementById('topicDes').value;
-            console.log(topicDes);
 
-
-            const newTopic = {
-               name: topicName,
-               topicDes: topicDes,
-            };
-
-
+            newTopicForm.append('name', topicName); // Adjust filename as needed
+            newTopicForm.append('topicDes', topicDes);
+            
+            
 
             // Add logic to create a new topic (e.g., API call)
             fetch('http://localhost:3000/topics', {
@@ -614,20 +543,19 @@
                   headers: {
                      'Content-Type': 'application/json',
                   },
-                  body: JSON.stringify(newTopic),
+                  body: JSON.stringify(newTopicForm),
                   credentials: 'include',
                })
                .then((response) => response.json())
                .then((data) => {
                   console.log('Created Topic successfully: ', data);
-                  window.location.href = ""
-                  closeModal();
+                  
                })
                .catch((error) => {
                   console.error('Error setting image:', error);
                });
             // Close the modal after submission
-
+            closeModal();
          });
 
          // Add logic to open modal when the "Create Topic" button is clicked
@@ -645,7 +573,7 @@
             }
          });
 
-
+         fetchAndRenderPosts();
 
          // Add a placeholder effect
          const contentDiv = document.getElementById('postContent');
@@ -1001,18 +929,18 @@
 
 
          // Close modal
-         closeModalProfilePost.addEventListener('click', function() {
-            mediaModalProfilePost.style.display = 'none';
-            modalImageProfilePost.src = '';
-            modalVideoProfilePost.src = '';
+         closeModal.addEventListener('click', function() {
+            mediaModal.style.display = 'none';
+            modalImage.src = '';
+            modalVideo.src = '';
          });
 
          // Close modal when clicking outside modal content
-         mediaModalProfilePost.addEventListener('click', function(event) {
-            if (event.target === mediaModalProfilePost) {
-               mediaModalProfilePost.style.display = 'none';
-               modalImageProfilePost.src = '';
-               modalVideoProfilePost.src = '';
+         mediaModal.addEventListener('click', function(event) {
+            if (event.target === mediaModal) {
+               mediaModal.style.display = 'none';
+               modalImage.src = '';
+               modalVideo.src = '';
             }
          });
 
@@ -1027,146 +955,52 @@
 
 
          // Fetch both user posts and user details
-         function fetchAndRenderPosts({
-            apiUrl = 'http://localhost:3000/posts/user',
-            detailsUrl = 'http://localhost:3000/users/details'
-         } = {}) {
+         function fetchAndRenderPosts() {
             Promise.all([
-                  fetch(apiUrl, {
+                  fetch('http://localhost:3000/posts/user', {
                      method: 'GET',
                      credentials: 'include',
                   }),
-                  fetch(detailsUrl, {
+                  fetch('http://localhost:3000/users/details', {
                      method: 'GET',
                      credentials: 'include',
                   })
                ])
                .then(responses => Promise.all(responses.map(response => {
                   if (!response.ok) {
-                     return response.json().then(errorData => {
-                        if (errorData.error === "Session ID not found in cookies") {
-                           window.location.href = "/login";
-                        }
-                     });
+                     throw new Error(`HTTP error! Status: ${response.status}`);
                   }
                   return response.json();
                })))
                .then(([postsData, userDetailsData]) => {
-                  console.log('Post response:', postsData);
+                  console.log('User post response:', postsData);
                   console.log('User details response:', userDetailsData);
 
-                  // Update the user interface
-                  const avatar = document.getElementById('profile-avatar');
-                  avatar.src = `http://localhost:3000${userDetailsData.profilePic}`;
+                  avatar.src = "http://localhost:3000" + userDetailsData.profilePic;
                   const userName = document.getElementById('profile-name');
                   const coverImage = document.getElementById('profile-cover');
                   const userImage = document.getElementById('user-image');
                   const cardUserName = document.getElementById('profile-card-name');
                   userName.innerHTML = userDetailsData.username;
                   cardUserName.innerHTML = userDetailsData.username;
-                  userImage.src = `http://localhost:3000${userDetailsData.profilePic}`;
+                  userImage.src = "http://localhost:3000" + userDetailsData.profilePic;
+                  // Set the background image using the path from the server response (data.path)
                   coverImage.style.backgroundImage = `url(http://localhost:3000${userDetailsData.coverPic})`;
-                  coverImage.style.backgroundSize = 'cover';
-                  coverImage.style.backgroundPosition = 'center';
-                  coverImage.style.backgroundRepeat = 'no-repeat';
-
+                  // // Optionally, you can add other background properties if needed
+                  coverImage.style.backgroundSize = 'cover'; // Ensures the image covers the entire element
+                  coverImage.style.backgroundPosition = 'center'; // Centers the image
+                  coverImage.style.backgroundRepeat = 'no-repeat'; // Prevents repetition of the background
                   const combinedData = {
                      posts: postsData,
                      userDetails: userDetailsData
                   };
 
-                  if (path.startsWith("/user/")) {
-                     renderSinglePost(postsData, userDetailsData)
-                  } else if (path.startsWith("/topic/")) {
-                     renderSinglePost(postsData, userDetailsData)
-
-                  } else {
-                     renderPosts(combinedData);
-                  }
-
-
+                  renderPosts(combinedData);
                })
                .catch(error => {
                   console.error('Error in fetching posts or user details:', error);
                });
          }
-
-         function renderSinglePost(post, userDetails) {
-            const container = document.getElementById('posts-container');
-            container.innerHTML = ''; // Clear the container before adding new content
-
-            // Safely access post properties
-            const images = post.media || [];
-            const content = post.content || '';
-            const createdAt = post.createdAt || '';
-            const topic = post.topic || {};
-            const topicName = topic.name || '';
-            const postID = post.postID || '';
-
-            let postHTML = `
-        <div class="card card-block card-stretch card-height">
-            <div class="card-body">
-                <div class="user-post-data">
-                    <div class="d-flex justify-content-between">
-                        <div class="me-2">
-                            <img class="rounded-circle" style="width: 60px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);" src="http://localhost:3000${userDetails.profilePic}" alt="User avatar">
-                        </div>
-                        <div class="w-100">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <h5 class="mb-0 d-inline-block">${userDetails.username}</h5>
-                                    <span class="mb-0 d-inline-block">đã thêm bài viết mới</span>`;
-
-            // Add topic if available
-            if (topicName) {
-               postHTML += `<p class="mb-0" style="font-weight: 600; color: coral;">${topicName}</p>`;
-            }
-
-            postHTML += `
-                                </div>
-                                <div class="container-right d-flex">
-                                    <p class="mb-0 text-primary" style="margin-right: 10px">${new Date(createdAt).toLocaleDateString()}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-3">
-                    <p>${content}</p>
-                </div>
-                <div class="user-post">
-                    <div id="carouselExampleControls${postID}" class="carousel slide" data-ride="carousel" data-interval="false" data-wrap="false">
-                        <div class="carousel-inner">`;
-
-            // Render post images if available
-            images.forEach((image, index) => {
-               const activeClass = index === 0 ? 'active' : '';
-               postHTML += `
-                            <div class="carousel-item ${activeClass}">
-                                <a href="#" class="open-lightbox" data-image="http://localhost:3000${image}">
-                                    <img class="d-block w-100" src="http://localhost:3000${image}" alt="Post image">
-                                </a>
-                            </div>`;
-            });
-
-            postHTML += `
-                        </div>
-                        <a class="carousel-control-prev" href="#carouselExampleControls${postID}" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselExampleControls${postID}" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>`;
-
-            container.innerHTML = postHTML; // Insert the post HTML into the container
-         }
-
 
          function renderPosts(combinedData) {
             const container = document.getElementById('posts-container');
@@ -1178,304 +1012,219 @@
 
             if (!Array.isArray(posts.posts) || posts.posts.length === 0) {
                let postHTML = `
-                     <div class="notification-body">
-                        <p class="notification-message">Bạn chưa tạo bài viết nào</p>
-                     </div>`;
-               container.innerHTML += postHTML;
+        <div class="notification-body">
+            <p class="notification-message">Bạn chưa tạo bài viết nào</p>
+        </div>`;
+
+               // Assuming `container` is already defined and references the DOM element
+               container.innerHTML += postHTML; // Appends the message to the container
             }
 
+
             posts.posts.forEach(post => {
-               const media = post.media || [];
+               const images = post.media || [];
                let postHTML = `
-               <div class="card card-block card-stretch card-height">
+            <div class="card card-block card-stretch card-height">
                <div class="card-body">
-                     <div class="user-post-data">
-                        <div class="d-flex justify-content-between">
-                           <div class="me-2">
-                                 <img class="rounded-circle" style="width: 60px;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);" img-fluid" src="http://localhost:3000${userDetails.profilePic}" alt="User avatar">
-                           </div>
-                           <div class="w-100">
-                                 <div class="d-flex justify-content-between">
-                                    <div>
-                                       <h5 class="mb-0 d-inline-block">${userDetails.username}</h5>
-                                       <span class="mb-0 d-inline-block">đã thêm bài viết mới</span>`;
+                  <div class="user-post-data">
+                     <div class="d-flex justify-content-between">
+                        <div class="me-2">
+                           <img class="rounded-circle" style="width: 60px;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);" img-fluid" src="http://localhost:3000${userDetails.profilePic}" alt="User avatar">
+                        </div>
+                        <div class="w-100">
+                           <div class="d-flex justify-content-between">
+                              <div>
+                                 <h5 class="mb-0 d-inline-block">${userDetails.username}</h5>
+                                 <span class="mb-0 d-inline-block">đã thêm bài viết mới</span>
+                                 `;
 
                if (post.topicID) {
                   postHTML += `
-                                       <p class="mb-0" style="font-weight: 600; color: coral;">${post.topic.name}</p>
+                                             <p class="mb-0" style="font-weight: 600; color: coral;">${post.topicID}</p>
                                     `;
                }
 
                postHTML += `
-                                    </div>
-                                    <div class="container-right d-flex">
-                                       <p class="mb-0 text-primary" style="margin-right: 10px">${new Date(post.createdAt).toLocaleDateString()}</p>
-                                       <div class="card-post-toolbar">
-                                             <div class="dropdown">
-                                                <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                                   <i class="ri-more-fill"></i>
-                                                </span>
-                                             </div>
-                                       </div>
+                              </div>
+                              <div class="container-right d-flex">
+                                 <p class="mb-0 text-primary" style="margin-right: 10px">${new Date(post.createdAt).toLocaleDateString()}</p>
+                                 <div class="card-post-toolbar">
+                                    <div class="dropdown">
+                                       <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                                          <i class="ri-more-fill"></i>
+                                       </span>
                                     </div>
                                  </div>
+                              </div>
                            </div>
                         </div>
                      </div>
-                     <div class="mt-3">
+                  </div>
+                  <div class="mt-3">
                         <p>${post.content}</p>
-                     </div>
-                     <div class="user-post">
-               `;
+                    </div>
+                    <div class="user-post">
+                        <div id="carouselExampleControls${post.postID}" class="carousel slide" data-ride="carousel"  data-interval="false" data-wrap="false">
+                        <div class="carousel-inner">
+                        `;
 
-               // Check if the post contains only image files
-               const hasOnlyImages = media.every(file => {
-                  const fileExtension = file.split('.').pop().toLowerCase();
-                  return ['jpg', 'jpeg', 'png', 'gif', 'bmp'].includes(fileExtension);
+               images.forEach((image, index) => {
+                  // Check if it's the first image and add the 'active' class only for the first one
+                  const activeClass = index === 0 ? 'active' : '';
+
+                  postHTML += `
+        <div class="carousel-item ${activeClass}">
+        <a href="#" class="open-lightbox" data-image="http://localhost:3000${image}">
+            <img class="d-block w-100" src="http://localhost:3000${image}" alt="Post image">
+         </a>
+        </div>
+        
+    `;
                });
 
-               if (hasOnlyImages) {
-                  // Carousel for posts with only images
-                  postHTML += `<div id="carouselExampleControls${post.postID}" class="carousel slide" data-bs-ride="carousel" data-interval="false" data-wrap="false">
-                                    <div class="carousel-inner">`;
-
-                  media.forEach((file, index) => {
-                     const activeClass = index === 0 ? 'active' : '';
-                     postHTML += `
-                           <div class="carousel-item ${activeClass}">
-                                 <a href="#" class="open-lightbox" data-image="http://localhost:3000${file}">
-                                    <img class="d-block w-100" src="http://localhost:3000${file}" alt="Post media">
-                                 </a>
-                           </div>
-                        `;
-                  });
-
-                  postHTML += `
-                                    </div>
-                                    <a class="carousel-control-prev" href="#carouselExampleControls${post.postID}" role="button" data-bs-slide="prev">
-                                       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                       <span class="sr-only">Previous</span>
-                                    </a>
-                                    <a class="carousel-control-next" href="#carouselExampleControls${post.postID}" role="button" data-bs-slide="next">
-                                       <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                       <span class="sr-only">Next</span>
-                                    </a>
-                                    <div class="carousel-indicators">`;
-
-                  media.forEach((_, index) => {
-                     const activeClass = index === 0 ? 'active' : '';
-                     postHTML += `
-                           <button type="button" data-bs-target="#carouselExampleControls${post.postID}" data-bs-slide-to="${index}" class="${activeClass}" aria-current="${activeClass ? 'true' : 'false'}"></button>
-                        `;
-                  });
-
-                  postHTML += `</div><!-- End of indicators --> </div>`;
-               } else {
-                  // Grid layout for posts with videos and images
-                  postHTML += `
-                        <div class="media-grid">
-                           <div class="media-left">
-                     `;
-
-                  const largeMedia = media[0]; // Use the first media as the large one
-                  const remainingMedia = media.slice(1); // The rest as smaller ones
-
-                  // Render the large media (left)
-                  const largeMediaExtension = largeMedia.split('.').pop().toLowerCase();
-                  if (['mp4', 'webm', 'ogg'].includes(largeMediaExtension)) {
-                     postHTML += `
-                           <div class="large-media">
-                                 <a href="#" class="open-lightbox" data-video="http://localhost:3000${largeMedia}">
-                                    <video class="d-block w-100" controls>
-                                       <source src="http://localhost:3000${largeMedia}" type="video/${largeMediaExtension}">
-                                       Your browser does not support the video tag.
-                                    </video>
-                                 </a>
-                           </div>
-                        `;
-                  } else {
-                     postHTML += `
-                           <div class="large-media">
-                                 <a href="#" class="open-lightbox" data-image="http://localhost:3000${largeMedia}">
-                                    <img class="d-block w-100" src="http://localhost:3000${largeMedia}" alt="Post media">
-                                 </a>
-                           </div>
-                        `;
-                  }
-
-                  postHTML += `</div>`; // End of the large media container
-
-                  postHTML += `
-                           <div class="media-right">
-                     `;
-
-                  // Render the remaining smaller media (right-side grid)
-                  postHTML += `<div class="media-right">`;
-
-                  remainingMedia.forEach((file, index) => {
-                     const fileExtension = file.split('.').pop().toLowerCase();
-                     postHTML += `
-                        <div class="small-media">
-                              <a href="#" class="open-lightbox" ${
-                                 ['mp4', 'webm', 'ogg'].includes(fileExtension)
-                                    ? `data-video="http://localhost:3000${file}"`
-                                    : `data-image="http://localhost:3000${file}"`
-                              }>
-                                 ${
-                                    ['mp4', 'webm', 'ogg'].includes(fileExtension)
-                                          ? `<video class="d-block w-100" controls>
-                                                <source src="http://localhost:3000${file}" type="video/${fileExtension}">
-                                                Your browser does not support the video tag.
-                                             </video>`
-                                          : `<img class="d-block w-100" src="http://localhost:3000${file}" alt="Post media">`
-                                 }
-                              </a>
-                              ${
-                                 index === 1 && remainingMedia.length > 2
-                                    ? `<div class="overlay-text">+${remainingMedia.length - 2}</div>`
-                                    : ''
-                              }
-                        </div>
-                     `;
-                  });
-
-                  postHTML += `</div></div>`; // End of media-right
-                  // End of media-right and media-grid
-
-               }
 
                postHTML += `
-                     </div>
-                     <hr>
-                     <div class="d-flex justify-content-between align-items-center flex-wrap">
-                        <div class="like-block position-relative d-flex align-items-center justify-content-between">
-                           <div class="d-flex align-items-center">
+                        </div>
+                     <a class="carousel-control-prev" href="#carouselExampleControls${post.postID}" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                     </a>
+                     <a class="carousel-control-next" href="#carouselExampleControls${post.postID}" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                     </a>
+                <div class="carousel-indicators">               
+               `;
+
+               images.forEach((_, index) => {
+                  const activeClass = index === 0 ? 'active' : '';
+                  postHTML += `
+            <button type="button" data-bs-target="#carouselExampleControls${post.postID}" data-bs-slide-to="${index}" class="${activeClass}" aria-current="${activeClass ? 'true' : 'false'}"></button>
+         `;
+               });
+
+               postHTML += `
+         </div> <!-- End of indicators -->
+      </div>
+      </div>
+      <hr>
+      <div class="d-flex justify-content-between align-items-center flex-wrap">
+                           <div class="like-block position-relative d-flex align-items-center justify-content-between">
+                              <div class="d-flex align-items-center">
                                  <div class="like-data">
                                     <div class="dropdown">
+                                       <!-- <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                                           <img src="images/icon/01.png" class="img-fluid" alt="">
+                                           </span>
+                                           <div class="dropdown-menu py-2">
+                                              <a class="ms-2 me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Like"><img src="images/icon/01.png" class="img-fluid" alt=""></a>
+                                              <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Love"><img src="images/icon/02.png" class="img-fluid" alt=""></a>
+                                              <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Happy"><img src="images/icon/03.png" class="img-fluid" alt=""></a>
+                                              <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="HaHa"><img src="images/icon/04.png" class="img-fluid" alt=""></a>
+                                              <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Think"><img src="images/icon/05.png" class="img-fluid" alt=""></a>
+                                              <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Sade" ><img src="images/icon/06.png" class="img-fluid" alt=""></a>
+                                              <a class="me-2" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="Lovely"><img src="images/icon/07.png" class="img-fluid" alt=""></a>
+                                           </div> -->
                                        <div class="vote-container" style="padding:3px; border-radius: 15px; width: 80px">
-                                             <button class="vote-button upvote" id="upvoteButton">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                                   <path d="M12 4l-8 8h16z"></path>
-                                                </svg>
-                                             </button>
-                                             <span class="vote-count" id="voteCount">0</span>
+                                          <!-- Nút Upvote -->
+                                          <button class="vote-button upvote" id="upvoteButton">
+                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                <path d="M12 4l-8 8h16z"></path>
+                                             </svg>
+                                          </button>
+
+                                          <!-- Số vote -->
+                                          <span class="vote-count" id="voteCount">0</span>
+
+                                          <!-- Nút Downvote -->
+                                          <!-- <button class="vote-button downvote" id="downvoteButton">
+                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                <path d="M12 20l8-8H4z"></path>
+                                             </svg>
+                                          </button> -->
                                        </div>
+
+
                                     </div>
                                  </div>
+                                 <div class="total-like-block ms-2 me-3">
+                                    <div class="dropdown">
+                                       <!-- <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                                           140 Thích
+                                           </span> -->
+                                       <!-- <div class="dropdown-menu">
+                                              <a class="dropdown-item" href="#">Max Emum</a>
+                                              <a class="dropdown-item" href="#">Bill Yerds</a>
+                                              <a class="dropdown-item" href="#">Hap E. Birthday</a>
+                                              <a class="dropdown-item" href="#">Tara Misu</a>
+                                              <a class="dropdown-item" href="#">Midge Itz</a>
+                                              <a class="dropdown-item" href="#">Sal Vidge</a>
+                                              <a class="dropdown-item" href="#">Other</a>
+                                           </div> -->
+                                    </div>
+                                 </div>
+                              </div>
+
                            </div>
-                        </div>
-                        <div class="total-comment-block">
-                           <div class="dropdown">
-                                 <span class="dropdown-toggle">
-                                 ${post.topicID ?              
-                                    `<a href="topic/${post.topicID}/post/${post.postID}">${post.commentsCount} Bình Luận</a>`:
-                                    `<a href="user/${post.userID}/post/${post.postID}">${post.commentsCount} Bình Luận</a>`}
+                           <!-- <div class="share-block d-flex align-items-center feather-icon mt-2 mt-md-0">
+                                  <a href="javascript:void();" data-bs-toggle="offcanvas" data-bs-target="#share-btn" aria-controls="share-btn"><i class="ri-share-line"></i>
+                                  <span class="ms-1">99 Chia sẻ</span></a>                           
+                               </div> -->
+                           <div class="total-comment-block">
+                              <div class="dropdown">
+                                 <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                                    20 Bình Luận
                                  </span>
+                                 <!-- <div class="dropdown-menu">
+                                           <a class="dropdown-item" href="#">Max Emum</a>
+                                           <a class="dropdown-item" href="#">Bill Yerds</a>
+                                           <a class="dropdown-item" href="#">Hap E. Birthday</a>
+                                           <a class="dropdown-item" href="#">Tara Misu</a>
+                                           <a class="dropdown-item" href="#">Midge Itz</a>
+                                           <a class="dropdown-item" href="#">Sal Vidge</a>
+                                           <a class="dropdown-item" href="#">Other</a>
+                                        </div> -->
+                              </div>
                            </div>
                         </div>
-                     </div>
-               </div>
-            </div>`;
+      </div>
+      </div>
+      
+      </div>
+      `;
 
                container.innerHTML += postHTML;
             });
 
-            // Add zoom functionality for images
+            // Add zoom functionality
             const lightboxLinks = document.querySelectorAll('.open-lightbox');
-            const modalContent = document.getElementById('modalContent');
+            const modalImage = document.getElementById('modalImage');
             const mediaModal = document.getElementById('mediaModal');
             const closeModal = document.getElementById('closeModal');
-            const mediaThumbnails = document.getElementById('mediaThumbnails');
 
-            let currentMediaIndex = 0;
-            let allMedia = []; // Will hold all media URLs for navigation
-
-            // Open lightbox and populate thumbnails
-            lightboxLinks.forEach((link, index) => {
+            lightboxLinks.forEach(link => {
                link.addEventListener('click', function(event) {
                   event.preventDefault();
-
-                  const mediaGroup = link.closest('.media-grid'); // Find all media in this post
-                  const mediaLinks = mediaGroup.querySelectorAll('.open-lightbox');
-
-                  // Gather all media for this post
-                  allMedia = Array.from(mediaLinks).map((media) => ({
-                     type: media.dataset.image ? 'image' : 'video',
-                     src: media.dataset.image || media.dataset.video,
-                  }));
-
-                  currentMediaIndex = index; // Set the current media index
-                  showLightboxMedia(allMedia[currentMediaIndex]);
-
-                  // Generate thumbnails
-                  populateThumbnails();
-
+                  const imageSrc = this.getAttribute('data-image');
+                  modalImage.src = imageSrc;
                   mediaModal.style.display = 'flex';
                });
             });
 
-            // Function to show a specific media in the lightbox
-            function showLightboxMedia(media) {
-               if (media.type === 'image') {
-                  modalContent.innerHTML = `<img class="d-block w-100" src="${media.src}" alt="Lightbox image">`;
-               } else if (media.type === 'video') {
-                  modalContent.innerHTML = `
-         <video class="d-block w-100" controls autoplay>
-            <source src="${media.src}" type="video/${media.src.split('.').pop()}">
-            Your browser does not support the video tag.
-         </video>`;
-               }
-            }
-
-            // Populate thumbnails
-            function populateThumbnails() {
-               mediaThumbnails.innerHTML = ''; // Clear existing thumbnails
-               allMedia.forEach((media, index) => {
-                  const thumbnail = document.createElement(media.type === 'image' ? 'img' : 'video');
-                  thumbnail.src = media.src;
-                  thumbnail.alt = `Media ${index + 1}`;
-                  thumbnail.className = index === currentMediaIndex ? 'active-thumbnail' : '';
-                  thumbnail.addEventListener('click', () => {
-                     currentMediaIndex = index; // Update current index
-                     showLightboxMedia(allMedia[currentMediaIndex]);
-                     highlightActiveThumbnail();
-                  });
-                  mediaThumbnails.appendChild(thumbnail);
-               });
-            }
-
-            // Highlight the active thumbnail
-            function highlightActiveThumbnail() {
-               const thumbnails = mediaThumbnails.querySelectorAll('img, video');
-               thumbnails.forEach((thumbnail, index) => {
-                  if (index === currentMediaIndex) {
-                     thumbnail.classList.add('active-thumbnail');
-                  } else {
-                     thumbnail.classList.remove('active-thumbnail');
-                  }
-               });
-            }
-
             // Close modal
             closeModal.addEventListener('click', function() {
                mediaModal.style.display = 'none';
-               modalContent.innerHTML = '';
-               mediaThumbnails.innerHTML = '';
-               allMedia = [];
+               modalImage.src = '';
             });
 
             // Close modal when clicking outside modal content
             mediaModal.addEventListener('click', function(event) {
                if (event.target === mediaModal) {
                   mediaModal.style.display = 'none';
-                  modalContent.innerHTML = '';
-                  mediaThumbnails.innerHTML = '';
-                  allMedia = [];
+                  modalImage.src = '';
                }
             });
          }
-
-
 
 
          const mediaInput = document.getElementById('media');
@@ -1588,8 +1337,6 @@
             });
 
          });
-
-
       });
    </script>
 
@@ -1597,158 +1344,6 @@
 
 
    <style>
-      .small-media {
-         position: relative;
-         display: inline-block;
-         margin: 5px;
-      }
-
-      /* .media-content {
-    position: relative;
-} */
-
-      .overlay-text {
-         position: absolute;
-         top: 50%;
-         left: 50%;
-         transform: translate(-50%, -50%);
-         color: white;
-         font-size: 24px;
-         background: rgba(0, 0, 0, 0.5);
-         /* Transparent black background */
-         padding: 10px;
-         border-radius: 5px;
-         text-align: center;
-      }
-
-      .overlay-remain-media .media-content {
-         position: relative;
-      }
-
-      .overlay-remain-media .overlay-text {
-         display: block;
-      }
-
-      /* Container for media grid */
-      .media-grid {
-         display: grid;
-         grid-template-columns: 2fr 1fr;
-         /* 2 parts for large media, 1 part for small media */
-         gap: 5px;
-         /* Gap between left and right sections */
-         margin-bottom: 20px;
-         height: auto;
-      }
-
-      /* Large media section */
-      .media-left {
-         width: 100%;
-         position: relative;
-         max-height: 500px;
-         /* Limit max height */
-         overflow: hidden;
-         display: flex;
-         align-items: stretch;
-         /* Ensures the large media stays stretched */
-      }
-
-      .media-left img,
-      .media-left video {
-         width: 100%;
-         height: 100%;
-         object-fit: cover;
-      }
-
-      /* Right section for small media */
-      .media-right {
-         display: grid;
-         grid-template-columns: 1fr;
-         /* Single column layout */
-         gap: 10px;
-         /* Add gap between stacked media items */
-         height: 100%;
-         grid-auto-rows: 1fr;
-         position: relative;
-      }
-
-      /* Small media styling - Square layout */
-      .small-media {
-         position: relative;
-         width: 100%;
-         height: 0;
-         padding-bottom: 100%;
-         /* This makes the height equal to the width */
-         overflow: hidden;
-         max-height: 150px;
-         /* Limit height of small media */
-      }
-
-      .small-media img,
-      .small-media video {
-         position: absolute;
-         width: 100%;
-         height: 100%;
-         object-fit: cover;
-         border-radius: 8px;
-      }
-
-      /* Overlay for remaining media */
-      .overlay-remain-media {
-         position: absolute;
-         top: 0;
-         right: 0;
-         background-color: rgba(0, 0, 0, 0.5);
-         color: white;
-         padding: 5px;
-         font-size: 14px;
-         font-weight: bold;
-         border-radius: 5px;
-      }
-
-      /* The "remaining media" count overlay */
-      .overlay-text {
-         position: absolute;
-         top: 50%;
-         left: 50%;
-         transform: translate(-50%, -50%);
-      }
-
-      /* Hide the 3rd media and beyond, and show overlay on the second visible media */
-      .media-right .small-media:nth-child(n+3) {
-         display: none;
-      }
-
-      .media-right .small-media:nth-child(2) {
-         position: relative;
-      }
-
-      .media-right .small-media:nth-child(2) .overlay-text {
-         display: block;
-         /* Show overlay text on the second item */
-      }
-
-      /* Ensure all elements fit correctly on small screens */
-      @media (max-width: 768px) {
-         .media-grid {
-            grid-template-columns: 1fr;
-            /* Stack all media vertically on smaller screens */
-         }
-
-         .media-left {
-            margin-bottom: 10px;
-         }
-      }
-
-
-
-
-
-      .dropdown-toggle:hover {
-         color: #50b5ff;
-         cursor: pointer;
-         text-decoration: underline;
-      }
-
       .cropper-container {
          width: 458px;
          height: 400px;

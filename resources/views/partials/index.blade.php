@@ -1158,15 +1158,12 @@
                   $('#createPost').on('submit', function(e) {
                      e.preventDefault(); // Prevent default form submission                                      
 
-                     if (!userID) {
-                        isUserLoggedIn();
-                     }
 
                      // Create a FormData object
                      const formData = new FormData();
                      formData.append('content', $('#postContent').text());
                      // alert($('#postContent').val());
-                     formData.append('userID', userID);
+                   
 
                      // Check topicID and append only if it has a valid value
                      const topicID = $('#topicID').val(); // Assuming #topicID is the dropdown/select element

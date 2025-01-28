@@ -4765,7 +4765,7 @@ ul.post-comments {
     list-style: none;
 }
 .comment-area {
-    max-width: 600px;
+    /* max-width: 600px; */
     margin: auto;
 }
 
@@ -5208,7 +5208,7 @@ ul.post-comments {
 
 
 .table-container {
-    width: 90%;
+    width: 100%;
     max-width: 1200px;
     background: #fff;
     border-radius: 16px;
